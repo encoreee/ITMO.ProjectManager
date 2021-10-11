@@ -1,0 +1,30 @@
+﻿@model ProjectManager.ViewModels.LoginViewModel
+
+
+<div class="intro__inner">
+    <h1 class="header-content-title">Enter in aplication</h1>
+    <div class="login-container">
+        <form method="post" asp-controller="Account" asp-action="Login"
+              asp-route-returnUrl="@Model.ReturnUrl">
+            <div asp-validation-summary="ModelOnly"></div>
+            <br />
+            <div>
+                <label asp-for="Username"></label><br />
+                <input type="text" asp-for="Username" />
+            </div>
+            <div>
+                <label asp-for="Password"></label><br />
+                <input type="text" asp-for="Password" />
+                <span asp-validation-for="Password"></span>
+            </div>
+            <br />
+            <div>
+                <label asp-for="RememberMe"></label><br />
+                <input type="checkbox" asp-for="RememberMe" />
+            </div>
+            <div>
+                <input class="enter-btn" type="submit" value="Enter" />
+            </div>
+        </form>
+    </div>
+</div>

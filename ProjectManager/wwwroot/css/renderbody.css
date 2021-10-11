@@ -1,0 +1,38 @@
+﻿.intro {
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+}
+
+.intro__title {
+    font-size: 90px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1;
+}
+
+.intro__suptitle {
+    margin-bottom: 15px;
+    font-size: 50px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1;
+}
+
+.intro__inner:after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 3px;
+    background-color: #333;
+    margin: 60px auto 0;
+}
+
+.intro__inner {
+    padding-top : 10px;
+    width: 100%;
+    max-width: 1210px;
+    min-height : 550px;
+    margin: 0 auto;
+    border: 2px solid grey;
+}

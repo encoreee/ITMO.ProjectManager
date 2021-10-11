@@ -1,0 +1,42 @@
+﻿@model ProjectManager.ViewModels.RegisterViewModel
+
+<div class="intro__inner">
+    <h1 class="header-content-title">New user registration</h1>
+    <div class="register-container">
+        <form method="post" asp-controller="Account" asp-action="Register">
+            <div asp-validation-summary="ModelOnly"></div>
+            <div>
+                <label asp-for="Email"></label><br />
+                <input asp-for="Email" />
+                <span asp-validation-for="Email"></span>
+            </div>
+            <br />
+            <div>
+                <label asp-for="Username"></label><br />
+                <input asp-for="Username" />
+            </div>
+            <br />
+            <div>
+                <label asp-for="Year"></label><br />
+                <input asp-for="Year" />
+                <span asp-validation-for="Year"></span>
+            </div>
+            <br />
+            <div>
+                <label asp-for="Password"></label><br />
+                <input asp-for="Password" />
+                <span asp-validation-for="Password"></span>
+            </div>
+            <br />
+            <div>
+                <label asp-for="PasswordConfirm"></label><br />
+                <input asp-for="PasswordConfirm" />
+                <span asp-validation-for="PasswordConfirm"></span>
+            </div>
+            <br />
+            <div>
+                <input type="submit" value="Registrate" />
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+﻿@using ProjectManager.Service
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    @await Html.PartialAsync("CssPartial")
+    @await Html.PartialAsync("MetatagsPartial")
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+
+    @if (ViewBag.Title != null)
+    {
+        <title>@ViewBag.Title</title>
+    }
+    else
+    {
+        <title>@Config.Title</title>
+    }
+</head>
+
+<body>
+    @await Html.PartialAsync("HeaderPartial")
+    @RenderBody()
+    @await Html.PartialAsync("FooterPartial")
+    @await Html.PartialAsync("ScriptsPartial")
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

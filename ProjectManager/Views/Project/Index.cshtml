@@ -1,0 +1,84 @@
+﻿@model ProjectManager.Domain.DataManager
+
+<div class="intro__inner">
+
+    @{
+        var projectid = ViewData["projectid"];
+        if (projectid != null)
+        {
+            var project = Model.projects.getProjectById(new Guid(ViewData["projectid"].ToString()));
+            <h1 class="header-content-title">@project.Name</h1>
+        }
+ 
+
+    }
+
+<div class="columns-area">
+    @{
+
+        try
+        {
+            projectid = ViewData["projectid"];
+            if (projectid != null)
+            {
+                projectid = ViewData["projectid"].ToString();
+            }
+
+
+            var columns = Model.projects.getColumnsByProjectId(new Guid(projectid.ToString()));
+            foreach (var column in columns)
+            {
+                Guid id = column.Id;
+                var tasks = Model.columns.getTasksByColumnId(id);
+
+
+        <div class="column" column-id="@column.Id">
+
+            <div class="column-header-wrapper">
+                <div class="column-header">
+                    @column.Name
+                </div>
+                <div class="icon-column-close-wrapper"></div>
+            </div>
+
+            @foreach (var task in tasks)
+            {
+                <div class="task" task-id="@task.Id">
+
+                    <div class="task-header-wrapper">
+                        <div class="task-header">@task.Name</div>
+                        <div class="icon-task-close-wrapper"></div>
+                        <div class="icon-task-toggle-wrapper"></div>
+                    </div>
+                    <div class="task-content">@task.Description</div>
+                </div>
+            }
+
+            <div class="newtask-button">
+                <a asp-controller="Project"
+                   asp-action="CreateTask"
+                   asp-route-projectid="@ViewData["projectid"].ToString()"
+                   asp-route-columnid="@column.Id"
+                   ><b>+</b></a>
+            </div>
+
+        </div>
+            }
+            <div class="newcolumn-button">
+                <a asp-controller="Project"
+                   asp-action="CreateColumn"
+                   asp-route-id="@ViewData["projectid"].ToString()"
+                   ><b>+</b></a>
+            </div>
+        }
+        catch (Exception)
+        {
+
+        }
+    }
+</div>
+   
+
+    <br />
+</div>
+

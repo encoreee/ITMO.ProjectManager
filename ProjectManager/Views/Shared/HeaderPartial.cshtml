@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+
+<div class="header">
+    <div class="container">
+        <div class="header__inner">
+            <div class="header__logo">
+                PM
+            </div>
+            <div class="nav">
+                @if (User.Identity.IsAuthenticated)
+                {
+
+                    if (User.IsInRole("admin"))
+                    {
+                        <a class="ui-button ui-widget ui-corner-all reg__btn" asp-controller="Admin" asp-action="Index">Admin area</a>
+                    }
+
+                    <h6 class="username">@User.Identity.Name</h6>
+
+
+
+                    <form method="post" asp-controller="Account" asp-action="Logout">
+                        <input class="ui-button ui-widget ui-corner-all reg__btn" type="submit" value="Logout" />
+                    </form>
+                }
+                <a class="nav__link" asp-controller="Home" asp-action="About">About</a>
+                <a class="nav__link" asp-controller="Home" asp-action="Contact">Contact</a>
+
+
+            </div>
+        </div>
+    </div>
+</div>
