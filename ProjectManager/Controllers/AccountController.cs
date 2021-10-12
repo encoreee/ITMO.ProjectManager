@@ -55,7 +55,7 @@ namespace ProjectManager.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+      //  [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
@@ -83,8 +83,8 @@ namespace ProjectManager.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+    //    [HttpPost]
+    //    [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             // удаляем аутентификационные куки

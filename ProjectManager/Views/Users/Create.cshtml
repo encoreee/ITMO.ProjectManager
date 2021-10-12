@@ -1,22 +1,36 @@
 ﻿@model ProjectManager.ViewModels.CreateUserViewModel
-@{
-    ViewBag.Title = "Добавление пользователя";
-}
-<form asp-action="Create" asp-controller="Users">
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <div class="form-group">
-        <label asp-for="Email" class="control-label">Email</label>
-        <input type="text" asp-for="Email" class="form-control" />
+
+<div class="intro__inner">
+    <h1 class="header-content-title">Admin area > Users > Create</h1>
+    <div class="register-container">
+        <form method="post" asp-controller="Create" asp-action="Users">
+            <div asp-validation-summary="ModelOnly"></div>
+            <div>
+                <label asp-for="Email"></label><br />
+                <input asp-for="Email" />
+                <span asp-validation-for="Email"></span>
+            </div>
+            <br />
+            <div>
+                <label asp-for="Username"></label><br />
+                <input asp-for="Username" />
+            </div>
+            <br />
+            <div>
+                <label asp-for="Year"></label><br />
+                <input asp-for="Year" />
+                <span asp-validation-for="Year"></span>
+            </div>
+            <br />
+            <div>
+                <label asp-for="Password"></label><br />
+                <input asp-for="Password" />
+                <span asp-validation-for="Password"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Add" />
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <label asp-for="Password" class="control-label">Пароль</label>
-        <input type="password" asp-for="Password" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="Year" class="control-label">Год рождения</label>
-        <input type="number" asp-for="Year" class="form-control" />
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Добавить" class="btn btn-outline-secondary" />
-    </div>
-</form>
+</div>

@@ -19,7 +19,7 @@
     line-height: 1;
 }
 
-.intro__inner:after {
+.intro__title:after {
     content: "";
     display: block;
     width: 60px;
@@ -29,10 +29,11 @@
 }
 
 .intro__inner {
-    padding-top : 10px;
+    padding-top: 10px;
     width: 100%;
     max-width: 1210px;
-    min-height : 550px;
+    min-height: 380px;
     margin: 0 auto;
     border: 2px solid grey;
+    box-shadow: 0 0 3px rgba(0,0,0,0.3);
 }

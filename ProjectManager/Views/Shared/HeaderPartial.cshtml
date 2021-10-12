@@ -4,30 +4,32 @@
     <div class="container">
         <div class="header__inner">
             <div class="header__logo">
-                PM
+                <img src="~/images/PMlogo.svg" class="img" alt="My image" />
             </div>
             <div class="nav">
                 @if (User.Identity.IsAuthenticated)
                 {
-
+                    <a class="nav__link" asp-controller="Home" asp-action="About">Logged as: @User.Identity.Name</a>
                     if (User.IsInRole("admin"))
                     {
-                        <a class="ui-button ui-widget ui-corner-all reg__btn" asp-controller="Admin" asp-action="Index">Admin area</a>
+                        <a class="nav__link" asp-controller="Admin" asp-action="Index">Admin area</a>
                     }
 
-                    <h6 class="username">@User.Identity.Name</h6>
+                    <a class="nav__link" asp-controller="Account" asp-action="Logout" value="Logout">Logout</a>
+                    <a class="nav__link" asp-controller="Projects" asp-action="Index" value="Projects">Projects</a>
 
-
-
-                    <form method="post" asp-controller="Account" asp-action="Logout">
-                        <input class="ui-button ui-widget ui-corner-all reg__btn" type="submit" value="Logout" />
-                    </form>
                 }
+                <a class="nav__link" asp-controller="Home" asp-action="Index">Home</a>
                 <a class="nav__link" asp-controller="Home" asp-action="About">About</a>
-                <a class="nav__link" asp-controller="Home" asp-action="Contact">Contact</a>
-
+                <a class="nav__link" asp-controller="Home" asp-action="Contacts">Contacts</a>
 
             </div>
         </div>
     </div>
 </div>
+
+
+@*<a class="nav__link" href="@Url.Action("Logout", "Account")" type="submit" value="Logout">Logout</a>*@
+@*<form method="post" asp-controller="Account" asp-action="Logout">
+        <input class="nav__link" type="submit" value="Logout" />
+    </form>*@

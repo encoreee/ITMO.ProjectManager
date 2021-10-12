@@ -9,7 +9,7 @@
             @if (!User.Identity.IsAuthenticated)
             {
                 <div class="container__btn">
-                    <a class="ui-button ui-widget ui-corner-all reg__btn" asp-controller="Account" asp-action="Login">Log in</a>
+                    <a class="nav__link" asp-controller="Account" asp-action="Login">Log in</a>
                     @*<a class="ui-button ui-widget ui-corner-all reg__btn" asp-controller="Account" asp-action="Register">Registration</a>*@
                 </div>
             }

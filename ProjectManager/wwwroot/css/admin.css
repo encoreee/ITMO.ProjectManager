@@ -1,0 +1,51 @@
+﻿.admin-area {
+    list-style-type: none;
+    display : block;
+    margin: 0;
+    padding: 0;
+}
+
+.admin-nav {
+    font-size: 18px;
+    text-transform: uppercase;
+    position: static
+}
+
+.admin-nav__link {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 15px;
+    position: relative;
+    color: #333;
+    text-decoration: none;
+    vertical-align: middle;
+    transition: color .2s linear;
+}
+
+    .admin-nav__link:after {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 3px;
+        display: none;
+        background-color: #333;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1;
+    }
+
+
+
+.admin-nav__link:hover {
+    color: #808080;
+}
+
+    .admin-nav__link:hover:after {
+        display: block;
+    }
+
+.table {
+    padding : 2em;
+}
+

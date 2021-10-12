@@ -30,7 +30,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .header {
     width : 100%;
-    padding: 30px;
+    padding: 10px;
     top : 0;
     left : 0;
     right: 0;
@@ -38,6 +38,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .header__inner {
+   height : 50px;
    display: flex;
    justify-content: space-between;
    align-items: center;
@@ -47,6 +48,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 30px;
     font-weight: 700;
     color: #333;
+    vertical-align: middle;
 }
 
 .nav {
@@ -108,7 +110,9 @@ h1, h2, h3, h4, h5, h6 {
 .container__btn {
     padding-top: 30px;
     display: flex;
-    justify-content: center; 
+    justify-content: center;
     align-items: center;
-    margin: 20px ;
+    margin: 20px;
+    font-size: 18px;
+    text-transform: uppercase;
 }

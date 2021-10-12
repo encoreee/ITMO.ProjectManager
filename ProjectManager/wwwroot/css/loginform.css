@@ -1,6 +1,10 @@
 ﻿.login-container {
     padding: 2em;
+    font-size: 18px;
+    text-transform: uppercase;
 }
 .register-container {
     padding: 2em;
+    font-size: 18px;
+    text-transform: uppercase;
 }

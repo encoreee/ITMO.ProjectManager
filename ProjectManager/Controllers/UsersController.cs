@@ -26,7 +26,7 @@ namespace ProjectManager.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = new User { Email = model.Email, UserName = model.Email};
+                User user = new User { Email = model.Email, UserName = model.Username };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -45,12 +45,12 @@ namespace ProjectManager.Controllers
 
         public async Task<IActionResult> Edit(string id)
         {
-            IdentityUser user = await _userManager.FindByIdAsync(id);
+            User user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
-            EditUserViewModel model = new EditUserViewModel { Id = user.Id, Email = user.Email,};
+            EditUserViewModel model = new EditUserViewModel { Id = user.Id, Username = user.UserName, Email = user.Email, Year = user.Year };
             return View(model);
         }
 
@@ -63,7 +63,8 @@ namespace ProjectManager.Controllers
                 if (user != null)
                 {
                     user.Email = model.Email;
-                    user.UserName = model.Email;
+                    user.UserName = model.Username;
+                    user.Year = model.Year;
 
                     var result = await _userManager.UpdateAsync(user);
                     if (result.Succeeded)
