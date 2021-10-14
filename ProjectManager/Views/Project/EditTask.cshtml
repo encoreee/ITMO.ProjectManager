@@ -1,0 +1,32 @@
+﻿@model ProjectManager.ViewModels.EditTaskViewModel
+
+<div class="intro__inner">
+    <h1 class="header-content-title">Task edit</h1>
+    <div class="register-container">
+        <form asp-action="Edit" asp-controller="Project">
+
+            <div asp-validation-summary="All"></div>
+            <div style="display: none;">
+                <label asp-for="Id">Id</label>
+                <input type="text" asp-for="Id" />
+            </div>
+            <div style="display: none;">
+                <label asp-for="Projectid">Projectid</label>
+                <input type="text" asp-for="Projectid" />
+            </div>
+            <div>
+                <label asp-for="Name">Name</label>
+                <input type="text" asp-for="Name" />
+            </div>
+            <br />
+            <div>
+                <label asp-for="Description">Description</label>
+                <input type="text" asp-for="Description" />
+            </div>
+            <br />
+            <div>
+                <input type="submit" value="Save" />
+            </div>
+        </form>
+    </div>
+</div>

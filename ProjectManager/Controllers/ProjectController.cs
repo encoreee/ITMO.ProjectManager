@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ProjectManager.ViewModels;
+
 
 namespace ProjectManager.Controllers
 {
@@ -17,13 +19,13 @@ namespace ProjectManager.Controllers
         {
             this.dataManager = dataManager;
         }
-        public ActionResult Index(String id)
+        public ActionResult Index(String projectid)
         {
-            ViewData["projectid"] = id;
+            ViewData["projectid"] = projectid;
             return View(dataManager);
         }
 
-        public IActionResult CreateColumn(String id)
+        public IActionResult CreateColumn(String projectid)
         {
             Guid guid = Guid.NewGuid();
             Column column = new Column
@@ -32,12 +34,12 @@ namespace ProjectManager.Controllers
                 Name = "Column name",
                 Description = "Column description"
             };
-            Project project = dataManager.projects.getProjectById(new Guid(id));
+            Project project = dataManager.projects.getProjectById(new Guid(projectid));
             dataManager.columns.addColumn(column);
             dataManager.projects.addColumnToProject(column, project);
             return RedirectToAction("Index", new
             {
-                id = id
+                projectid = projectid
             });
         }
 
@@ -63,18 +65,52 @@ namespace ProjectManager.Controllers
             dataManager.columns.addTaskToColumn(task, column);
             return RedirectToAction("Index", new
             {
-                id = projectid
+                projectid = projectid
             });
         }
 
+        public IActionResult EditTask(String projectid, String taskid)
+        {
 
+            Task task = dataManager.tasks.getTaskById(new Guid(taskid));
+            if (task == null)
+            {
+                return NotFound();
+            }
+            EditTaskViewModel model = new EditTaskViewModel
+            {
+                Id = task.Id,
+                Projectid = new Guid(projectid),
+                Name = task.Name,
+                Description = task.Description
+            };
+            return View(model);
+        }
 
+        [HttpPost]
+        public IActionResult Edit(EditTaskViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Task task = dataManager.tasks.getTaskById(model.Id);
 
+                if (task != null)
+                {
+                    task.Id = model.Id;
+                    task.Name = model.Name;
+                    task.Description = model.Description;
+                    dataManager.tasks.saveTask(task);
 
-
-
-
-
+                    return RedirectToAction("Index", new
+                    {
+                        projectid = model.Projectid
+                    });
+                }
+            }
+            return RedirectToAction("Index", new
+            {
+                projectid = model.Projectid
+            });
+        }
     }
-
 }

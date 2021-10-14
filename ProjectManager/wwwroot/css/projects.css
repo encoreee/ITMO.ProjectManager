@@ -64,7 +64,7 @@
     padding: 0.3em;
     float: left;
     align-content: center;
-
+    text-decoration: none;
 }
 
     .newproject-button:hover {

@@ -172,3 +172,6 @@ D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\ProjectManager.dll
 D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\ref\ProjectManager.dll
 D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\ProjectManager.pdb
 D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\ProjectManager.genruntimeconfig.cache
+D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\ProjectManager.csprojAssemblyReference.cache
+D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\Razor\Views\Project\EditTask.cshtml.g.cs
+D:\Repository\ProjectManager\ProjectManager\bin\Debug\net5.0\project.json

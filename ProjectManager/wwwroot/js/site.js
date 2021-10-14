@@ -7,8 +7,6 @@
 });
 
 
-
-
 $(function () {
     $(".project-area").sortable();
     $(".project-area").disableSelection();
@@ -56,9 +54,8 @@ $(function () {
 
         var project_id = $(this).attr("project-id");
 
-        var url = "/Project/?id=" + project_id;
+        var url = "/Project/?projectid=" + project_id;
         $(location).attr('href', url);
-
     });
 
     $(".column")
@@ -88,6 +85,7 @@ $(function () {
         icon.closest(".column").hide();
     });
 
+
     $(".task")
         .addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all")
         .find(".task-header")
@@ -115,6 +113,96 @@ $(function () {
         icon.closest(".column").hide();
     });
 
+    //$(".task-content").dblclick(function () {
+    //    $('.column').sortable("cancel")
+    //    $(".columns-area").sortable("cancel");
+    //    enableEditing(content);
+    //});
 
+    $(".task").dblclick(function () {
+        var project_id = $(this).closest(".project-wrapper").attr("project-id");
+        var task_id = $(this).attr("task-id");
+        var url = "/Project/EditTask/?projectid=" + project_id + "&taskid=" + task_id;
+        $(location).attr('href', url);
+    });
+
+    $(".columns-area").dblclick(function () {
+
+        
+
+
+        console.log("project:");
+        var project_id = $(this).closest(".project-wrapper").attr("project-id");
+        console.log(project_id);
+        var project = new Project(project_id);
+
+        var columns = document.getElementsByClassName('column');
+        let columnsArray = [];
+        Array.prototype.forEach.call(columns, function (col) {
+            console.log("column:");
+            var column_id = col.getAttribute("column-id");
+            var column = new Column(column_id);
+            columnsArray.push(column);
+            console.log(column_id);
+            let taskArray = [];
+            var tasks = col.getElementsByClassName('task');
+            Array.prototype.forEach.call(tasks, function (ts) {
+                
+                console.log("task:");
+                var task_id = ts.getAttribute("task-id");
+                var task = new Task(task_id);
+                console.log(task_id);
+                taskArray.push(task);
+            });
+            column.tasks = taskArray;
+        });
+        project.columns = columnsArray;
+        console.log(project);
+        console.log(JSON.stringify(project));
+
+        $.ajax({
+            type: "POST",
+            url: "/Services/makeSequence",
+            data: JSON.stringify(project),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        });
+    });
 });
 
+document.on = function (event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        document.querySelector(".task-content").removeAttribute('contentEditable');
+    }
+}
+
+function enableEditing(element) {
+    //Adds the content editable property to passed element
+    element.setAttribute('contentEditable', true)
+    //Focuses the element
+    element.focus()
+}
+
+class Project {
+
+    constructor(projectid) {
+        this.projectid = projectid;
+    }
+    columns;
+}
+
+class Column {
+
+    constructor(columnid) {
+        this.columnid = columnid;
+    }
+    tasks;
+}
+
+class Task {
+
+    constructor(taskid) {
+        this.taskid = taskid;
+    }
+}
