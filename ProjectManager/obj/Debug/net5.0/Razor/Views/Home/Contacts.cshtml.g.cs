@@ -41,7 +41,7 @@ using ProjectManager.Service;
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"aca88115e1283b37a790d8c48ec183e4fc7cffd8", @"/Views/Home/Contacts.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"34451376467b1ea239e1e0a2039c557618f253c1", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"aa8c8ba8f38f5b9fd03911f1f12734246c49b728", @"/Views/_ViewImports.cshtml")]
     public class Views_Home_Contacts : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
         #pragma warning disable 1998

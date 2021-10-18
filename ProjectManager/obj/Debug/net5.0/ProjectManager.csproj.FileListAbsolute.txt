@@ -2,6 +2,7 @@ D:\Repository\ProjectManager\ProjectManager\bin\Debug\net5.0\appsettings.json
 D:\Repository\ProjectManager\ProjectManager\bin\Debug\net5.0\appsettings.production.json
 D:\Repository\ProjectManager\ProjectManager\bin\Debug\net5.0\appsettings.staging.json
 D:\Repository\ProjectManager\ProjectManager\bin\Debug\net5.0\libman.json
+D:\Repository\ProjectManager\ProjectManager\bin\Debug\net5.0\project.json
 D:\Repository\ProjectManager\ProjectManager\bin\Debug\net5.0\ProjectManager.exe
 D:\Repository\ProjectManager\ProjectManager\bin\Debug\net5.0\ProjectManager.deps.json
 D:\Repository\ProjectManager\ProjectManager\bin\Debug\net5.0\ProjectManager.runtimeconfig.json
@@ -145,6 +146,7 @@ D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\Razor\Views\Home\Co
 D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\Razor\Views\Home\Index.cshtml.g.cs
 D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\Razor\Views\Home\Privacy.cshtml.g.cs
 D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\Razor\Views\Projects\Index.cshtml.g.cs
+D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\Razor\Views\Project\EditTask.cshtml.g.cs
 D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\Razor\Views\Project\Index.cshtml.g.cs
 D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\Razor\Views\Roles\Create.cshtml.g.cs
 D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\Razor\Views\Roles\Edit.cshtml.g.cs
@@ -173,5 +175,6 @@ D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\ref\ProjectManager.
 D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\ProjectManager.pdb
 D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\ProjectManager.genruntimeconfig.cache
 D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\ProjectManager.csprojAssemblyReference.cache
-D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\Razor\Views\Project\EditTask.cshtml.g.cs
-D:\Repository\ProjectManager\ProjectManager\bin\Debug\net5.0\project.json
+D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\Razor\Views\Project\EditColumn.cshtml.g.cs
+D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\Razor\Views\Projects\EditProject.cshtml.g.cs
+D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\Razor\Views\Project\EditProject.cshtml.g.cs

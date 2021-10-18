@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ProjectManager.ViewModels;
 
 namespace ProjectManager.Controllers
 {
@@ -39,6 +40,49 @@ namespace ProjectManager.Controllers
         {
             dataManager.projects.deleteProject(new Guid(id));
             return RedirectToAction("Index");
+        }
+
+        public IActionResult EditProject(String projectid)
+        {
+
+            Project project = dataManager.projects.getProjectById(new Guid(projectid));
+            if (project == null)
+            {
+                return NotFound();
+            }
+            EditProjectViewModel model = new EditProjectViewModel
+            {
+                Id = project.Id,
+                Name = project.Name,
+                Description = project.Description
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult EditProject(EditProjectViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Project project = dataManager.projects.getProjectById(model.Id);
+
+                if (project != null)
+                {
+                    project.Id = model.Id;
+                    project.Name = model.Name;
+                    project.Description = model.Description;
+                    dataManager.projects.saveProject(project);
+
+                    return RedirectToAction("Index", new
+                    {
+                        projectid = model.Id
+                    });
+                }
+            }
+            return RedirectToAction("Index", new
+            {
+                projectid = model.Id
+            });
         }
 
     }

@@ -1,5 +1,5 @@
 ﻿(function () {
-   
+
     $(".logout-btn")
         .addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all ui-state-default")
     $(".enter-btn")
@@ -8,10 +8,16 @@
 
 
 $(function () {
-    $(".project-area").sortable();
-    $(".project-area").disableSelection();
+    $(".projects-area").sortable();
+    $(".projects-area").disableSelection();
 
-    $(".columns-area").sortable();
+    $(".columns-area").sortable({
+        cancel: ".newproject-button",
+        stop: function () {
+            var delayInMilliseconds = 200;
+            setTimeout(makesequence(), delayInMilliseconds);
+        }
+    });
     $(".columns-area").disableSelection();
 
     $(".project")
@@ -22,9 +28,6 @@ $(function () {
     $(".newproject-button")
         .addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all ui-state-default")
 
-    $(".sortable").sortable({
-        cancel: ".newproject-button"
-    });
 
     $(".icon-project-toggle-wrapper").prepend("<span class='ui-icon ui-icon-minusthick project-toggle'></span>");
     $(".icon-project-close-wrapper").prepend("<span class='ui-icon ui-icon-closethick project-close'></span>");
@@ -66,11 +69,34 @@ $(function () {
         connectWith: ".column",
         handle: ".task-header",
         cancel: ".task-toggle",
-        placeholder: "task-placeholder ui-corner-all"
+        placeholder: "task-placeholder ui-corner-all",
+
+        stop: function (event, ui) {
+            
+            var project_id = $(".project-wrapper").attr("project-id");
+            var column_id = $(ui.item).closest(".column").attr("column-id");
+            var task_id = $(ui.item).attr("task-id");
+            
+            $.ajax({
+                url: '/Project/ChangeColumn',
+                method: 'get',
+                dataType: 'html',
+                data: {
+                    projectid: project_id,
+                    columnid: column_id,
+                    taskid: task_id
+                },
+            });
+
+            var delayInMilliseconds = 200;
+            setTimeout(makesequence(), delayInMilliseconds);
+
+        }
     });
 
+
     $(".icon-column-close-wrapper").prepend("<span class='ui-icon ui-icon-closethick column-close'></span>");
-    
+
     $(".column-close").on("click", function () {
         var icon = $(this);
         var column_id = icon.closest(".column").attr("column-id");
@@ -83,6 +109,10 @@ $(function () {
 
         });
         icon.closest(".column").hide();
+
+        var delayInMilliseconds = 200;
+        setTimeout(makesequence(), delayInMilliseconds);
+
     });
 
 
@@ -126,48 +156,29 @@ $(function () {
         $(location).attr('href', url);
     });
 
-    $(".columns-area").dblclick(function () {
-
-        
-
-
-        console.log("project:");
+    $(".column").dblclick(function () {
         var project_id = $(this).closest(".project-wrapper").attr("project-id");
-        console.log(project_id);
-        var project = new Project(project_id);
-
-        var columns = document.getElementsByClassName('column');
-        let columnsArray = [];
-        Array.prototype.forEach.call(columns, function (col) {
-            console.log("column:");
-            var column_id = col.getAttribute("column-id");
-            var column = new Column(column_id);
-            columnsArray.push(column);
-            console.log(column_id);
-            let taskArray = [];
-            var tasks = col.getElementsByClassName('task');
-            Array.prototype.forEach.call(tasks, function (ts) {
-                
-                console.log("task:");
-                var task_id = ts.getAttribute("task-id");
-                var task = new Task(task_id);
-                console.log(task_id);
-                taskArray.push(task);
-            });
-            column.tasks = taskArray;
-        });
-        project.columns = columnsArray;
-        console.log(project);
-        console.log(JSON.stringify(project));
-
-        $.ajax({
-            type: "POST",
-            url: "/Services/makeSequence",
-            data: JSON.stringify(project),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json"
-        });
+        var column_id = $(this).attr("column-id");
+        var url = "/Project/EditColumn/?projectid=" + project_id + "&columnid=" + column_id;
+        $(location).attr('href', url);
     });
+
+    $(".project-overall").dblclick(function () {
+        var project_id = $(".project-wrapper").attr("project-id");
+        var url = "/Project/EditProject/?projectid=" + project_id;
+        $(location).attr('href', url);
+    });
+
+
+
+
+    //$(".columns-area").droppable({
+    //    stop: function () {
+    //        var delayInMilliseconds = 1000;
+    //        setTimeout(makesequence(), delayInMilliseconds);
+    //    }
+    //});
+
 });
 
 document.on = function (event) {
@@ -205,4 +216,44 @@ class Task {
     constructor(taskid) {
         this.taskid = taskid;
     }
+}
+
+function makesequence() {
+    console.log("project:");
+    var project_id = $(".project-wrapper").attr("project-id");
+    console.log(project_id);
+    var project = new Project(project_id);
+
+    var columns = document.getElementsByClassName('column');
+    let columnsArray = [];
+    Array.prototype.forEach.call(columns, function (col) {
+        console.log("column:");
+        var column_id = col.getAttribute("column-id");
+        var column = new Column(column_id);
+        columnsArray.push(column);
+        console.log(column_id);
+        console.log(column_id);
+        let taskArray = [];
+        var tasks = col.getElementsByClassName('task');
+        Array.prototype.forEach.call(tasks, function (ts) {
+
+            console.log("task:");
+            var task_id = ts.getAttribute("task-id");
+            var task = new Task(task_id);
+            console.log(task_id);
+            taskArray.push(task);
+        });
+        column.tasks = taskArray;
+    });
+    project.columns = columnsArray;
+    console.log(project);
+    console.log(JSON.stringify(project));
+
+    $.ajax({
+        type: "POST",
+        url: "/Services/makeSequence",
+        data: JSON.stringify(project),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json"
+    });
 }

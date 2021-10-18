@@ -81,6 +81,26 @@ namespace ProjectManager.Domain.Repositories.EntityFramework
             context.SaveChanges();
         }
 
+        void IColumnsRepository.changeTaskColmun(Task task, Column column)
+        {
+            var items = context.ColumnTasks.Where(x => x.Taskid == task.Id);
+            foreach (var item in items)
+            {
+                context.ColumnTasks.Remove(item);
+            }
+
+            ColumnTasks columnTasks = new ColumnTasks
+            {
+                Id = new Guid(),
+                Taskid = task.Id,
+                Columnid = column.Id
+            };
+
+            context.ColumnTasks.Add(columnTasks);
+            context.SaveChanges();
+        }
+
+
     }
 }
 

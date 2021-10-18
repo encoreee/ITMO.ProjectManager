@@ -15,5 +15,7 @@ namespace ProjectManager.Domain.Repositories.Abstract
         void addColumn(Column column);
         void addTaskToColumn(Task task, Column column);
 
+        void changeTaskColmun(Task task, Column column);
+
     }
 }

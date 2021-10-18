@@ -1,21 +1,30 @@
-﻿@model             IQueryable<ProjectManager.Project>
+﻿@model IQueryable<ProjectManager.Project>
 
 <div class="intro__inner">
-    <h1 class="header-content-title">Projects</h1>
-    <div class="projects-area">
-        @foreach (var project in Model)
-        {
-            <div class="project" project-id="@project.Id">
-                <div class="project-header-wrapper">
-                    <div class="project-header">
-                        @project.Name
+    <div>
+        <h1 class="header-content-title">Projects</h1>
+        <div class="projects-area">
+            @foreach (var project in Model)
+            {
+                <div class="project" project-id="@project.Id">
+                    <div class="project-header-wrapper">
+                        <div class="project-header">
+                            @project.Name
+                        </div>
+                        <div class="icon-project-toggle-wrapper"></div>
+                        <div class="icon-project-close-wrapper"></div>
                     </div>
-                    <div class="icon-project-toggle-wrapper"></div>
-                    <div class="icon-project-close-wrapper"></div>
+                    <div class="project-content">@project.Description</div>
+                    <div class="edittask-button">
+                        <a class="nav__link" asp-controller="Projects"
+                           asp-action="EditProject"
+                           asp-route-projectid="@project.Id">
+                            Edit
+                        </a>
+                    </div>
                 </div>
-                <div class="project-content">@project.Description</div>
-            </div>
-        }
+            }
+        </div>
     </div>
     <div class="newproject-button">
         <a asp-action="CreateProject"><b>+</b></a>
