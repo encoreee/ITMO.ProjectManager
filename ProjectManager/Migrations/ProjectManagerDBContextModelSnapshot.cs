@@ -49,14 +49,14 @@ namespace ProjectManager.Migrations
                         new
                         {
                             Id = "44546e06-8719-4ad8-b88a-f271ae9d6eab",
-                            ConcurrencyStamp = "7a4a0631-af85-435c-a4da-d07fab60f017",
+                            ConcurrencyStamp = "1c5cf656-5cfd-4128-b0a4-dba8122602cb",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "401CD605-BAEF-45CF-8BB5-FA69DA80DC63",
-                            ConcurrencyStamp = "fa5bc37e-2057-455b-9e0a-dc7542fef9dc",
+                            ConcurrencyStamp = "68203c54-9949-4b67-9a61-11335be7a24f",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -309,23 +309,6 @@ namespace ProjectManager.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Columns");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("a22dc7da-1311-4479-9764-93507257f813"),
-                            Name = "Column1"
-                        },
-                        new
-                        {
-                            Id = new Guid("6f338c6a-2979-472d-b6be-9b984ef4d4d7"),
-                            Name = "Column2"
-                        },
-                        new
-                        {
-                            Id = new Guid("e9a0c114-1143-4ec6-9c6d-d08736116bac"),
-                            Name = "Column3"
-                        });
                 });
 
             modelBuilder.Entity("ProjectManager.ColumnTasks", b =>
@@ -380,26 +363,6 @@ namespace ProjectManager.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Projects");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("ec12b7d7-7dcd-4e42-9a52-a4986cb3e1d7"),
-                            Description = "this is very log description about project1",
-                            Name = "Project1"
-                        },
-                        new
-                        {
-                            Id = new Guid("a90787d4-c1b6-47f6-85ea-9cbdb9be883a"),
-                            Description = "this is very log description about project2",
-                            Name = "Project2"
-                        },
-                        new
-                        {
-                            Id = new Guid("e56bb6af-b4d8-4016-bbad-e90a21600c65"),
-                            Description = "this is very log description about project3",
-                            Name = "Project3"
-                        });
                 });
 
             modelBuilder.Entity("ProjectManager.ProjectColumns", b =>
@@ -417,26 +380,6 @@ namespace ProjectManager.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProjectColumns");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("f3f52cc7-0e87-48ab-9685-b1cab744bfb5"),
-                            Columnid = new Guid("a22dc7da-1311-4479-9764-93507257f813"),
-                            Projectid = new Guid("ec12b7d7-7dcd-4e42-9a52-a4986cb3e1d7")
-                        },
-                        new
-                        {
-                            Id = new Guid("1184fac6-8886-47c6-930d-2078d7844135"),
-                            Columnid = new Guid("6f338c6a-2979-472d-b6be-9b984ef4d4d7"),
-                            Projectid = new Guid("ec12b7d7-7dcd-4e42-9a52-a4986cb3e1d7")
-                        },
-                        new
-                        {
-                            Id = new Guid("6b6ac990-742b-470e-bc5d-e982d9a0c31e"),
-                            Columnid = new Guid("e9a0c114-1143-4ec6-9c6d-d08736116bac"),
-                            Projectid = new Guid("ec12b7d7-7dcd-4e42-9a52-a4986cb3e1d7")
-                        });
                 });
 
             modelBuilder.Entity("ProjectManager.ProjectUser", b =>
@@ -462,54 +405,24 @@ namespace ProjectManager.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Columnid")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Enddate")
                         .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("Endtime")
-                        .HasColumnType("time");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Startdate")
                         .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("Starttime")
-                        .HasColumnType("time");
-
                     b.HasKey("Id");
 
                     b.ToTable("Tasks");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("55a0a852-657b-4a0e-9cf1-e923f2b11fe7"),
-                            Columnid = new Guid("a22dc7da-1311-4479-9764-93507257f813"),
-                            Description = "Description1",
-                            Enddate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Endtime = new TimeSpan(0, 0, 0, 0, 0),
-                            Name = "Task1",
-                            Startdate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Starttime = new TimeSpan(0, 0, 0, 0, 0)
-                        },
-                        new
-                        {
-                            Id = new Guid("ad3972b5-3789-4a10-aa86-950b539dc40a"),
-                            Columnid = new Guid("a22dc7da-1311-4479-9764-93507257f813"),
-                            Description = "Description2",
-                            Enddate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Endtime = new TimeSpan(0, 0, 0, 0, 0),
-                            Name = "Task2",
-                            Startdate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Starttime = new TimeSpan(0, 0, 0, 0, 0)
-                        });
                 });
 
             modelBuilder.Entity("ProjectManager.User", b =>
@@ -526,13 +439,13 @@ namespace ProjectManager.Migrations
                         {
                             Id = "3b62472e-4f66-49fa-a20f-e7685b9565d8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b52ecaee-3d6a-4f71-bab7-8638fa4c9cbf",
+                            ConcurrencyStamp = "177a325f-8c28-4f03-bbfe-b3375ba9b7d2",
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBzrKs3UEVs0g7E2oNIJAjp4NyiNODFrGke9uW0L3LrTRrqF0iE9euq6oD2f9c4xZw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEN1YlUctKCzFLMXWEJZ//6I/+EqEx5/mGYoV9Uo7kV6KeRUKC3FV/I7J9KS3fQL9ZQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -543,13 +456,13 @@ namespace ProjectManager.Migrations
                         {
                             Id = "13D24B5A-E7C9-42B0-BCD2-DF0956FEB2FB",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "874d0181-aa09-4035-a8ea-bc14ef0eeffb",
+                            ConcurrencyStamp = "6aa91585-be15-4e25-9e12-e58cca3329ee",
                             Email = "user1@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@EMAIL.COM",
                             NormalizedUserName = "USER1",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDSHocZPzLF7CnYOBWIf9e8pDCKNKmrQQBj4rS/ffTQMeVybMTpDQV6xVKRLKv+KEg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGiPIj3RvPCNzTYtG8o4aG4hk+MYu4qwyWFV+zlJI40P2NkoRqsfnl3SMgkFz/C28g==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,

@@ -99,6 +99,19 @@ namespace ProjectManager.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ColumnTasks",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Taskid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Columnid = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ColumnTasks", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Messages",
                 columns: table => new
                 {
@@ -157,8 +170,8 @@ namespace ProjectManager.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Starttime = table.Column<TimeSpan>(type: "time", nullable: false),
-                    Endtime = table.Column<TimeSpan>(type: "time", nullable: false),
+                    Starttime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Endtime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Startdate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Enddate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Columnid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -280,8 +293,8 @@ namespace ProjectManager.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "44546e06-8719-4ad8-b88a-f271ae9d6eab", "1751d1a1-c13d-4207-b05f-fed7e4f6ad84", "admin", "ADMIN" },
-                    { "401CD605-BAEF-45CF-8BB5-FA69DA80DC63", "6c09ac79-faf7-42e1-9263-9797fe6b2d19", "user", "USER" }
+                    { "44546e06-8719-4ad8-b88a-f271ae9d6eab", "d2d9d84a-2b45-4e65-908e-76598f044366", "admin", "ADMIN" },
+                    { "401CD605-BAEF-45CF-8BB5-FA69DA80DC63", "2b8ade52-2709-4314-b5da-c66762dcee55", "user", "USER" }
                 });
 
             migrationBuilder.InsertData(
@@ -289,47 +302,8 @@ namespace ProjectManager.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "Year" },
                 values: new object[,]
                 {
-                    { "3b62472e-4f66-49fa-a20f-e7685b9565d8", 0, "cb4d2993-e5a6-4ebb-b627-d92d23789567", "User", "admin@email.com", true, false, null, "ADMIN@EMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEAFBIM1pcUgCMZ+Z5bOQfIR/C9C2p3VvOrqxfE4ZRTFjD6ScerGTTxPD7BUUOvc7zA==", null, false, "", false, "admin", 0 },
-                    { "13D24B5A-E7C9-42B0-BCD2-DF0956FEB2FB", 0, "fe612e12-bd42-4c6f-a26a-8a4328e9c127", "User", "user1@email.com", true, false, null, "USER1@EMAIL.COM", "USER1", "AQAAAAEAACcQAAAAEKdb9r6UwqbERxDY/SvbSTcm0RPe5udblg9QXxFZRp+6KBtGpjulXhyAFfLf86mIXg==", null, false, "", false, "User1", 0 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Columns",
-                columns: new[] { "Id", "Description", "Name" },
-                values: new object[,]
-                {
-                    { new Guid("a22dc7da-1311-4479-9764-93507257f813"), null, "Column1" },
-                    { new Guid("6f338c6a-2979-472d-b6be-9b984ef4d4d7"), null, "Column2" },
-                    { new Guid("e9a0c114-1143-4ec6-9c6d-d08736116bac"), null, "Column3" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "ProjectColumns",
-                columns: new[] { "Id", "Columnid", "Projectid" },
-                values: new object[,]
-                {
-                    { new Guid("f3f52cc7-0e87-48ab-9685-b1cab744bfb5"), new Guid("a22dc7da-1311-4479-9764-93507257f813"), new Guid("ec12b7d7-7dcd-4e42-9a52-a4986cb3e1d7") },
-                    { new Guid("1184fac6-8886-47c6-930d-2078d7844135"), new Guid("6f338c6a-2979-472d-b6be-9b984ef4d4d7"), new Guid("ec12b7d7-7dcd-4e42-9a52-a4986cb3e1d7") },
-                    { new Guid("6b6ac990-742b-470e-bc5d-e982d9a0c31e"), new Guid("e9a0c114-1143-4ec6-9c6d-d08736116bac"), new Guid("ec12b7d7-7dcd-4e42-9a52-a4986cb3e1d7") }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Projects",
-                columns: new[] { "Id", "Description", "Name" },
-                values: new object[,]
-                {
-                    { new Guid("ec12b7d7-7dcd-4e42-9a52-a4986cb3e1d7"), "this is very log description about project1", "Project1" },
-                    { new Guid("a90787d4-c1b6-47f6-85ea-9cbdb9be883a"), "this is very log description about project2", "Project2" },
-                    { new Guid("e56bb6af-b4d8-4016-bbad-e90a21600c65"), "this is very log description about project3", "Project3" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Tasks",
-                columns: new[] { "Id", "Columnid", "Description", "Enddate", "Endtime", "Name", "Startdate", "Starttime" },
-                values: new object[,]
-                {
-                    { new Guid("55a0a852-657b-4a0e-9cf1-e923f2b11fe7"), new Guid("a22dc7da-1311-4479-9764-93507257f813"), "Description1", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0), "Task1", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0) },
-                    { new Guid("ad3972b5-3789-4a10-aa86-950b539dc40a"), new Guid("a22dc7da-1311-4479-9764-93507257f813"), "Description2", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0), "Task2", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0) }
+                    { "3b62472e-4f66-49fa-a20f-e7685b9565d8", 0, "48b3053d-a897-4906-91df-cfe838883e82", "User", "admin@email.com", true, false, null, "ADMIN@EMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEFgFQHwyEtid3Slom3bACtBQb1iXUN5Qtmx60DS7kQ9v5SFjb1tbj4vktUj9SMRr5A==", null, false, "", false, "admin", 0 },
+                    { "13D24B5A-E7C9-42B0-BCD2-DF0956FEB2FB", 0, "0c7ce26e-cf5f-42e0-a115-43464cc4a0fb", "User", "user1@email.com", true, false, null, "USER1@EMAIL.COM", "USER1", "AQAAAAEAACcQAAAAEPTiOCyePi1gH2MqU1Ta+j/UL20txeFOmEyTc6SI1pf6ZVlrxOUQl8xmHbmzP1kCbg==", null, false, "", false, "User1", 0 }
                 });
 
             migrationBuilder.InsertData(
@@ -410,6 +384,9 @@ namespace ProjectManager.Migrations
 
             migrationBuilder.DropTable(
                 name: "Columns");
+
+            migrationBuilder.DropTable(
+                name: "ColumnTasks");
 
             migrationBuilder.DropTable(
                 name: "Messages");

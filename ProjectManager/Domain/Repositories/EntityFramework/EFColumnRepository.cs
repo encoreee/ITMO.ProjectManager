@@ -18,14 +18,30 @@ namespace ProjectManager.Domain.Repositories.EntityFramework
 
         void IColumnsRepository.DeleteColumn(Guid id)
         {
-            context.Columns.Remove(new Column() { Id = id });
-
-
-            var items = context.ProjectColumns.Where(x => x.Columnid == id);
-            foreach (var item in items)
+            
+            var pjcols = context.ProjectColumns.Where(x => x.Columnid == id);
+            foreach (var pjcol in pjcols)
             {
-                context.ProjectColumns.Remove(item);
+                context.ProjectColumns.Remove(pjcol);
             }
+            var cols = context.Columns.Where(x => x.Id == id);
+            foreach (var col in cols)
+            {
+                context.Columns.Remove(col);
+            }
+
+            var coltsks = context.ColumnTasks.Where(x => x.Columnid == id);
+            var tsks = new List<Task>();
+            foreach (var coltsk in coltsks)
+            {
+                tsks.Add(context.Tasks.FirstOrDefault(x => x.Id == coltsk.Taskid));
+                context.ColumnTasks.Remove(coltsk);
+            }
+            foreach (var tsk in tsks)
+            {
+                context.Tasks.Remove(tsk);
+            }
+
             context.SaveChanges();
         }
 

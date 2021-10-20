@@ -11,5 +11,8 @@ namespace ProjectManager.ViewModels
         public Guid Projectid { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public DateTime Startdate { get; set; }
+        public DateTime Enddate { get; set; }
+        public int Priority { get; set; }
     }
 }

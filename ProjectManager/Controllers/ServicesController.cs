@@ -32,17 +32,20 @@ namespace ProjectManager.Controllers
 
             String path = Directory.CreateDirectory(Environment.CurrentDirectory + "//UserData//" + userid).ToString();
             string writePath = System.IO.Path.Combine(path, project.projectid + ".json");
+            //          String jsonString = JsonSerializer.Serialize(project, options);
+            //         System.IO.File.WriteAllText(writePath, jsonString);
 
-            using (FileStream fs = new FileStream(writePath, FileMode.Create))
-            {
-                await JsonSerializer.SerializeAsync<Models.Project>(fs, project, options);
-                Console.WriteLine("Data has been saved to file");
-            }
+           
+                using (FileStream fs = new FileStream(writePath, FileMode.Create))
+                {
+                    await JsonSerializer.SerializeAsync<Models.Project>(fs, project, options);
+                fs.Close();
+                    Console.WriteLine("Data has been saved to file");
+                }
+                
+            
 
-            return RedirectToAction("Index", "Project", new
-            {
-                projectid = project.projectid
-            }); 
+            return new EmptyResult();
         }
     }
 }

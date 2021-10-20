@@ -18,7 +18,18 @@ namespace ProjectManager.Domain.Repositories.EntityFramework
 
         void ITaskRepository.DeleteTask(Guid id)
         {
-            context.Tasks.Remove(new Task() { Id = id });
+
+            var coltsks = context.ColumnTasks.Where(x => x.Taskid == id);
+            foreach (var coltsk in coltsks)
+            {
+                context.ColumnTasks.Remove(coltsk);
+            }
+            var tsks = context.Tasks.Where(x => x.Id == id);
+            foreach (var tks in tsks)
+            {
+                context.Tasks.Remove(tks);
+            }
+            context.SaveChanges();
         }
 
         Task ITaskRepository.getTaskById(Guid id)

@@ -1,29 +1,73 @@
-﻿@model IQueryable<ProjectManager.Project>
+﻿@model ProjectManager.Domain.DataManager
+@using ProjectManager.Utils
 
 <div class="intro__inner">
     <div>
         <h1 class="header-content-title">Projects</h1>
         <div class="projects-area">
-            @foreach (var project in Model)
-            {
-                <div class="project" project-id="@project.Id">
-                    <div class="project-header-wrapper">
-                        <div class="project-header">
-                            @project.Name
+
+            @{
+                var projects = Model.projects.getProjects();
+
+                foreach (var project in projects)
+                {
+                    DateTime endofproject = new DateTime();
+                    var taskstocalc = new List<ProjectManager.Task>();
+                    var columns = Model.projects.getColumnsByProjectId(project.Id);
+
+                    foreach (var col in columns)
+                    {
+                        var tasks = Model.columns.getTasksByColumnId(col.Id);
+                        foreach (var task in tasks)
+                        {
+
+                            taskstocalc.Add(task);
+                            if (endofproject.IsEmpty())
+                            {
+                                endofproject = task.Enddate;
+                            }
+                            else
+                            {
+                                if (endofproject > task.Enddate)
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    endofproject = task.Enddate;
+                                }
+
+                            }
+                        }
+                    }
+
+                    <div class="project" project-id="@project.Id">
+                        <div class="project-header-wrapper">
+                            <div class="project-header">
+                                @project.Name
+                            </div>
+                            <div class="icon-project-toggle-wrapper"></div>
+                            <div class="icon-project-close-wrapper"></div>
                         </div>
-                        <div class="icon-project-toggle-wrapper"></div>
-                        <div class="icon-project-close-wrapper"></div>
+                        <div class="project-content">@project.Description</div>
+                        <br />
+                        <div class="endofproject__lbl">
+                            @endofproject.ToString("dd.MM.yyyy HH:mm:ss")
+                        </div>
+                        <br />
+                        <div class="editproject-button">
+                            <a class="nav__link" asp-controller="Projects"
+                               asp-action="EditProject"
+                               asp-route-projectid="@project.Id">
+                                Edit
+                            </a>
+                        </div>
                     </div>
-                    <div class="project-content">@project.Description</div>
-                    <div class="edittask-button">
-                        <a class="nav__link" asp-controller="Projects"
-                           asp-action="EditProject"
-                           asp-route-projectid="@project.Id">
-                            Edit
-                        </a>
-                    </div>
-                </div>
+
+                }
+
             }
+
         </div>
     </div>
     <div class="newproject-button">

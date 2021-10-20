@@ -25,13 +25,37 @@ namespace ProjectManager.Controllers
             this.dataManager = dataManager;
             _userManager = userManager;
         }
-        public ActionResult Index(String projectid)
+        public async Task <ActionResult> Index(String projectid)
         {
             ViewData["userid"] = _userManager.GetUserId(User);
             ViewData["projectid"] = projectid;
             return View(dataManager);
         }
+        public IActionResult CreateTask(String projectid, String columnid)
+        {
+            Guid guid = Guid.NewGuid();
 
+
+
+            Task task = new Task
+            {
+                Id = guid,
+                Name = "Task name",
+                Description = "Task description",
+                Startdate = DateTime.Now,
+                Enddate = DateTime.Now,
+                Priority = 0
+            };
+
+
+            Column column = dataManager.columns.getColumnsById(new Guid(columnid));
+            dataManager.tasks.addTask(task);
+            dataManager.columns.addTaskToColumn(task, column);
+            return RedirectToAction("Index", new
+            {
+                projectid = projectid
+            });
+        }
         public IActionResult CreateColumn(String projectid)
         {
             Guid guid = Guid.NewGuid();
@@ -50,43 +74,36 @@ namespace ProjectManager.Controllers
             });
         }
 
-        public IActionResult DeleteColumn(String id)
+        public IActionResult DeleteColumn(String projectid, String columnid)
         {
-            dataManager.columns.DeleteColumn(new Guid(id));
-            return RedirectToAction("Index");
+            dataManager.columns.DeleteColumn(new Guid(columnid));
+            return RedirectToAction("Index", new
+            {
+                projectid = projectid
+            });
         }
-        public IActionResult ChangeColumn(String projectid, String columnid, String taskid)
+        public IActionResult DeleteTask(String projectid, String taskid)
+        {
+            dataManager.tasks.DeleteTask(new Guid(taskid));
+            return RedirectToAction("Index", new
+            {
+                projectid = projectid
+            });
+        }
+        public  IActionResult ChangeColumn(String projectid, String columnid, String taskid)
         {
 
             Column column = dataManager.columns.getColumnsById(new Guid(columnid));
             Task task = dataManager.tasks.getTaskById(new Guid(taskid));
             dataManager.columns.changeTaskColmun(task, column);
-
+            //return new EmptyResult();
             return RedirectToAction("Index", new
             {
                 projectid = projectid
             });
         }
 
-        public IActionResult CreateTask(String projectid, String columnid)
-        {
-            Guid guid = Guid.NewGuid();
-            Task task = new Task
-            {
-                Id = guid,
-                Name = "Task name",
-                Description = "Task description"
-            };
-
-
-            Column column = dataManager.columns.getColumnsById(new Guid(columnid));
-            dataManager.tasks.addTask(task);
-            dataManager.columns.addTaskToColumn(task, column);
-            return RedirectToAction("Index", new
-            {
-                projectid = projectid
-            });
-        }
+        
 
         public IActionResult EditTask(String projectid, String taskid)
         {
@@ -101,7 +118,11 @@ namespace ProjectManager.Controllers
                 Id = task.Id,
                 Projectid = new Guid(projectid),
                 Name = task.Name,
-                Description = task.Description
+                Description = task.Description,
+                Startdate = task.Startdate,
+                Enddate = task.Enddate,
+                Priority = task.Priority
+
             };
             return View(model);
         }
@@ -118,6 +139,10 @@ namespace ProjectManager.Controllers
                     task.Id = model.Id;
                     task.Name = model.Name;
                     task.Description = model.Description;
+                    task.Enddate = model.Enddate;
+                    task.Startdate = model.Startdate;
+                    task.Priority = model.Priority;
+
                     dataManager.tasks.saveTask(task);
 
                     return RedirectToAction("Index", new

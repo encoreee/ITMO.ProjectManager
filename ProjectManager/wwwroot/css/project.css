@@ -9,7 +9,7 @@
 }
 .column {
     margin: 1em;
-    min-width: 250px;
+    width: 250px;
     float: left;
     padding: 10px;
     border: 1px solid grey;
@@ -41,12 +41,16 @@
 .task {
     margin: 1em;
     padding: 0.3em;
+    
 }
 
     .task:hover {
         border: 2px solid black;
-        background-color: #f9f6db
-    }     
+        background-color: #f9f6db;
+        
+    }
+
+
 
 .task-header-wrapper {
     height: min-content;
@@ -83,7 +87,16 @@
 
 .task-content {
     padding: 0.4em;
+    word-wrap: break-word;
+    white-space: nowrap; /* Отменяем перенос текста */
+    overflow: hidden; /* Обрезаем содержимое */
+    text-overflow: ellipsis; /* Многоточие */
 }
+
+    .task-content:hover {
+
+        white-space: normal; /* Обычный перенос текста */
+    }
 
 .task-placeholder {
     border: 1px dotted black;

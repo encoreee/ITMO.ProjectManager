@@ -20,7 +20,7 @@ namespace ProjectManager.Controllers
         }
         public ActionResult Index()
         {
-            return View(dataManager.projects.getProjects());
+            return View(dataManager);
         }
     
         public IActionResult CreateProject()

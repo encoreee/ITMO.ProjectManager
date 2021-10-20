@@ -3,7 +3,7 @@
 <div class="intro__inner">
     <h1 class="header-content-title">Task edit</h1>
     <div class="register-container">
-        <form asp-action="Edit" asp-controller="Project">
+        <form asp-action="EditTask" asp-controller="Project">
 
             <div asp-validation-summary="All"></div>
             <div style="display: none;">
@@ -16,17 +16,46 @@
             </div>
             <div>
                 <label asp-for="Name">Name</label>
-                <input type="text" asp-for="Name" />
+                <input type="text" asp-for="Name" style="min-width:30%" />
             </div>
-            <br />
+    
+           
+
             <div>
                 <label asp-for="Description">Description</label>
-                <input type="text" asp-for="Description" />
+                <textarea name="Description" asp-for="Description"></textarea>
+            </div>
+
+            <div>
+                <label asp-for="Startdate">Start date</label>
+                <input class="startdatepicker" type="text" asp-for="Startdate" />
+            </div>
+            <div>
+                <label asp-for="Enddate">End date</label>
+                <input class="enddatepicker" type="text" asp-for="Enddate" />
+            </div>
+            <div>
+                <label asp-for="Priority">Priority</label>
+                <select name="Priority">
+                    <option value=0>0</option>
+                    <option value=1>1</option>
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=4>4</option>
+                    <option value=5>5</option>
+                    <option value=6>6</option>
+                    <option value=7>7</option>
+                    <option value=8>8</option>
+                    <option value=9>9</option>
+                    <option value=10>10</option>
+                </select>
             </div>
             <br />
             <div>
                 <input type="submit" value="Save" />
             </div>
+
+
         </form>
     </div>
 </div>

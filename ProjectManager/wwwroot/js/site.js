@@ -12,11 +12,38 @@ $(function () {
     $(".projects-area").disableSelection();
 
     $(".columns-area").sortable({
-        cancel: ".newproject-button",
+        cancel: ".newcolumn-button",
+        items: ".column",
+        
+        distance: 20,
         stop: function () {
-            var delayInMilliseconds = 200;
-            setTimeout(makesequence(), delayInMilliseconds);
+            //  var delayInMilliseconds = 200;
+            // setTimeout(makesequence(), delayInMilliseconds);
+        },
+
+
+
+        start: function (e, ui) {
+            $(this).attr('data-previndex', ui.item.index());
+        },
+        update: function (e, ui) {
+
+            var newIndex = ui.item.index();
+            var oldIndex = $(this).attr('data-previndex');
+
+            if (oldIndex != newIndex) {
+                //var delayInMilliseconds = 200;
+                //setTimeout(makesequence(), delayInMilliseconds);
+                 
+                makesequence();
+            }
+
+            $(this).removeAttr('data-previndex');
         }
+
+
+
+
     });
     $(".columns-area").disableSelection();
 
@@ -50,7 +77,7 @@ $(function () {
             data: { id: project_id },
 
         });
-        icon.closest(".project").hide();
+        icon.closest(".project").remove();
     });
 
     $(".project").dblclick(function () {
@@ -69,29 +96,62 @@ $(function () {
         connectWith: ".column",
         handle: ".task-header",
         cancel: ".task-toggle",
+        items: ".task",
+        distance: 20,
         placeholder: "task-placeholder ui-corner-all",
 
         stop: function (event, ui) {
-            
+
+            //var project_id = $(".project-wrapper").attr("project-id");
+            //var column_id = $(ui.item).closest(".column").attr("column-id");
+            //var task_id = $(ui.item).attr("task-id");
+
+            //$.ajax({
+            //    url: '/Project/ChangeColumn',
+            //    method: 'get',
+            //    dataType: 'html',
+            //    data: {
+            //        projectid: project_id,
+            //        columnid: column_id,
+            //        taskid: task_id
+            //    },
+            //});
+
+            //var delayInMilliseconds = 200;
+            //setTimeout(makesequence(), delayInMilliseconds);
+
+        },
+        start: function (e, ui) {
+            $(this).attr('data-previndex', ui.item.index());
+        },
+        update: function (e, ui) {
+
+            var newIndex = ui.item.index();
+            var oldIndex = $(this).attr('data-previndex');
             var project_id = $(".project-wrapper").attr("project-id");
             var column_id = $(ui.item).closest(".column").attr("column-id");
             var task_id = $(ui.item).attr("task-id");
-            
-            $.ajax({
-                url: '/Project/ChangeColumn',
-                method: 'get',
-                dataType: 'html',
-                data: {
-                    projectid: project_id,
-                    columnid: column_id,
-                    taskid: task_id
-                },
-            });
 
-            var delayInMilliseconds = 200;
-            setTimeout(makesequence(), delayInMilliseconds);
+           
+            if (oldIndex != newIndex) {
+                $.ajax({
+                    url: '/Project/ChangeColumn',
+                    method: 'get',
+                    dataType: 'html',
+                    data: {
+                        projectid: project_id,
+                        columnid: column_id,
+                        taskid: task_id
+                    },
+                });
+                var delayInMilliseconds = 200;
+                setTimeout(makesequence(), delayInMilliseconds);
+            }
+
+            $(this).removeAttr('data-previndex');
 
         }
+
     });
 
 
@@ -100,20 +160,44 @@ $(function () {
     $(".column-close").on("click", function () {
         var icon = $(this);
         var column_id = icon.closest(".column").attr("column-id");
+        var project_id = $(this).closest(".project-wrapper").attr("project-id");
 
         $.ajax({
             url: '/Project/DeleteColumn',
             method: 'get',
             dataType: 'html',
-            data: { id: column_id },
+            data: {
+                projectid: project_id,
+                columnid: column_id,
+            },
+            success: function () {
+                
+            }
 
         });
-        icon.closest(".column").hide();
-
-        var delayInMilliseconds = 200;
-        setTimeout(makesequence(), delayInMilliseconds);
-
+        icon.closest(".column").remove();
+        makesequence(); 
+        
     });
+    //$(".newcolumn-button").on("click", function () {
+       
+    //    var project_id = $(this).closest(".project-wrapper").attr("project-id");
+
+    //    $.ajax({
+    //        url: '/Project/CreateColumn',
+    //        method: 'get',
+    //        dataType: 'html',
+    //        data: {
+    //            projectid: project_id,
+    //        },
+    //        success: function () {
+    //            makesequence();
+    //        }
+
+    //    });
+       
+
+    //});
 
 
     $(".task")
@@ -132,15 +216,24 @@ $(function () {
     $(".task-close").on("click", function () {
         var icon = $(this);
         var task_id = icon.closest(".task").attr("task-id");
+        var project_id = $(this).closest(".project-wrapper").attr("project-id");
 
         $.ajax({
             url: '/Project/DeleteTask',
             method: 'get',
             dataType: 'html',
-            data: { id: task_id },
-
+            data: {
+                projectid: project_id,
+                taskid: task_id
+            },
+            success: function () {
+                icon.closest(".task").remove();
+                 //var delayInMilliseconds = 1500;
+                //setTimeout(makesequence(), delayInMilliseconds);
+                makesequence();
+            }
         });
-        icon.closest(".column").hide();
+        
     });
 
     //$(".task-content").dblclick(function () {
@@ -169,15 +262,21 @@ $(function () {
         $(location).attr('href', url);
     });
 
+    $(function () {
+        $(".startdatepicker").datetimepicker(
+            {
+                lang: 'en',
+                format: 'd.m.Y H:i'
+            });
+    });
 
-
-
-    //$(".columns-area").droppable({
-    //    stop: function () {
-    //        var delayInMilliseconds = 1000;
-    //        setTimeout(makesequence(), delayInMilliseconds);
-    //    }
-    //});
+    $(function () {
+        $(".enddatepicker").datetimepicker(
+            {
+                lang: 'en',
+                format: 'd.m.Y H:i'
+            });
+    });
 
 });
 
@@ -257,3 +356,23 @@ function makesequence() {
         dataType: "json"
     });
 }
+
+
+//function sortableEnable() {
+//    $("ul").sortable();
+//    $("ul").sortable("option", "disabled", false);
+//    $("li").attr("contentEditable", "false");
+//    $("li").css("cursor", "move");
+//    return false;
+//}
+
+//function sortableDisable() {
+//    $("ul").sortable("disable");
+//    $("li").attr("contentEditable", "true");
+//    $("li").css("cursor", "default");
+//    return false;
+//}
+
+//$(function () {
+//    sortableEnable();
+//});
