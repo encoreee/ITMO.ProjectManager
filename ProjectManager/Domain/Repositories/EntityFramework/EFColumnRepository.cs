@@ -50,6 +50,13 @@ namespace ProjectManager.Domain.Repositories.EntityFramework
             return context.Columns.FirstOrDefault(x => x.Id == id);
         }
 
+        Column IColumnsRepository.getColumnsByTask(Task task)
+        {
+            var coltasks = context.ColumnTasks.FirstOrDefault(c => c.Taskid == task.Id);
+
+            return context.Columns.FirstOrDefault(x => x.Id == coltasks.Columnid);
+        }
+
         IQueryable<Column> IColumnsRepository.getColumns()
         {
             return context.Columns;
@@ -86,7 +93,7 @@ namespace ProjectManager.Domain.Repositories.EntityFramework
 
         void IColumnsRepository.addTaskToColumn(Task task, Column column)
         {
-            ColumnTasks columnTasks = new ColumnTasks
+            ColumnTask columnTasks = new ColumnTask
             {
                 Id = new Guid(),
                 Taskid = task.Id,
@@ -105,7 +112,7 @@ namespace ProjectManager.Domain.Repositories.EntityFramework
                 context.ColumnTasks.Remove(item);
             }
 
-            ColumnTasks columnTasks = new ColumnTasks
+            ColumnTask columnTasks = new ColumnTask
             {
                 Id = new Guid(),
                 Taskid = task.Id,

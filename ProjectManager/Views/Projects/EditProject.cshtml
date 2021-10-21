@@ -1,28 +1,30 @@
 ﻿@model ProjectManager.ViewModels.EditProjectViewModel
 
-<div class="intro__inner">
-    <h1 class="header-content-title">Project edit</h1>
-    <div class="register-container">
-        <form asp-action="EditProject" asp-controller="Projects">
+<div class="intro">
+    <div class="intro__inner">
+        <h1 class="header-content-title">Project edit</h1>
+        <div class="register-container">
+            <form asp-action="EditProject" asp-controller="Projects">
 
-            <div asp-validation-summary="All"></div>
-            <div style="display: none;">
-                <label asp-for="Id">Id</label>
-                <input type="text" asp-for="Id" />
-            </div>
-            <div>
-                <label asp-for="Name">Name</label>
-                <input type="text" asp-for="Name" style="min-width:30%" />
-            </div>
-            <br />
-            <div>
-                <label asp-for="Description">Description</label>
-                <input type="text" asp-for="Description" style="min-width:60%"/>
-            </div>
-            <br />
-            <div>
-                <input type="submit" value="Save" />
-            </div>
-        </form>
+                <div asp-validation-summary="All"></div>
+                <div style="display: none;">
+                    <label asp-for="Id">Id</label>
+                    <input type="text" asp-for="Id" />
+                </div>
+                <div>
+                    <label asp-for="Name">Name</label>
+                    <input type="text" asp-for="Name" style="min-width:30%" />
+                </div>
+                <br />
+                <div>
+                    <label asp-for="Description">Description</label>
+                    <input type="text" asp-for="Description" style="min-width:60%" />
+                </div>
+                <br />
+                <div>
+                    <input type="submit" value="Save" />
+                </div>
+            </form>
+        </div>
     </div>
 </div>

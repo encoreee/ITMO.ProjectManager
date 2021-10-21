@@ -20,22 +20,25 @@ namespace ProjectManager
         {
         }
 
-        public virtual DbSet<AcsessLevel> AcsessLevels { get; set; }
         public virtual DbSet<Chat> Chats { get; set; }
         public virtual DbSet<Column> Columns { get; set; }
-        public virtual DbSet<ColumnTasks> ColumnTasks { get; set; }
-        public virtual DbSet<ChatMessage> ChatMessages { get; set; }
+        public virtual DbSet<ColumnTask> ColumnTasks { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<Project> Projects { get; set; }
-        public virtual DbSet<ProjectColumns> ProjectColumns { get; set; }
+        public virtual DbSet<ProjectColumn> ProjectColumns { get; set; }
         public virtual DbSet<ProjectUser> ProjectUsers { get; set; }
         public virtual DbSet<Task> Tasks { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
+            //modelBuilder.Entity<Task>()
+            //.HasOne(i => i.Chat)
+            //.WithOne(c => c.Ta)
+            //.OnDelete(DeleteBehavior.Cascade);
+            
 
-        //Заполнение БД юзерами и ролями
+            //Заполнение БД юзерами и ролямиt
 
             modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
             {
@@ -49,7 +52,7 @@ namespace ProjectManager
                 Name = "user",
                 NormalizedName = "USER"
             });
-           
+
 
             modelBuilder.Entity<User>().HasData(new User
             {

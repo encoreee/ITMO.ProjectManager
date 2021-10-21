@@ -1,36 +1,39 @@
 ﻿@model ProjectManager.ViewModels.CreateUserViewModel
 
-<div class="intro__inner">
-    <h1 class="header-content-title">Admin area > Users > Create</h1>
-    <div class="register-container">
-        <form method="post" asp-controller="Create" asp-action="Users">
-            <div asp-validation-summary="ModelOnly"></div>
-            <div>
-                <label asp-for="Email"></label><br />
-                <input asp-for="Email" />
-                <span asp-validation-for="Email"></span>
-            </div>
-            <br />
-            <div>
-                <label asp-for="Username"></label><br />
-                <input asp-for="Username" />
-            </div>
-            <br />
-            <div>
-                <label asp-for="Year"></label><br />
-                <input asp-for="Year" />
-                <span asp-validation-for="Year"></span>
-            </div>
-            <br />
-            <div>
-                <label asp-for="Password"></label><br />
-                <input asp-for="Password" />
-                <span asp-validation-for="Password"></span>
-            </div>
-            <br />
-            <div class="form-group">
-                <input type="submit" value="Add" />
-            </div>
-        </form>
+
+<div class="intro">
+    <div class="intro__inner">
+        <h1 class="header-content-title">Admin area > Users > Create</h1>
+        <div class="register-container">
+            <form method="post" asp-controller="Create" asp-action="Users">
+                <div asp-validation-summary="ModelOnly"></div>
+                <div>
+                    <label asp-for="Email"></label><br />
+                    <input asp-for="Email" />
+                    <span asp-validation-for="Email"></span>
+                </div>
+                <br />
+                <div>
+                    <label asp-for="Username"></label><br />
+                    <input asp-for="Username" />
+                </div>
+                <br />
+                <div>
+                    <label asp-for="Year"></label><br />
+                    <input asp-for="Year" />
+                    <span asp-validation-for="Year"></span>
+                </div>
+                <br />
+                <div>
+                    <label asp-for="Password"></label><br />
+                    <input asp-for="Password" />
+                    <span asp-validation-for="Password"></span>
+                </div>
+                <br />
+                <div class="form-group">
+                    <input type="submit" value="Add" />
+                </div>
+            </form>
+        </div>
     </div>
 </div>

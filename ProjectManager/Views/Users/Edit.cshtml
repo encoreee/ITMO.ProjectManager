@@ -1,32 +1,35 @@
 ﻿@model ProjectManager.ViewModels.EditUserViewModel
 
-<div class="intro__inner">
-    <h1 class="header-content-title">Admin area > Users > Edit</h1>
-    <div class="register-container">
-        <form asp-action="Edit" asp-controller="Users">
-            <div asp-validation-summary="All"></div>
-            <div>
-                <input type="hidden" asp-for="Id" />
+
+    <div class="intro">
+        <div class="intro__inner">
+            <h1 class="header-content-title">Admin area > Users > Edit</h1>
+            <div class="register-container">
+                <form asp-action="Edit" asp-controller="Users">
+                    <div asp-validation-summary="All"></div>
+                    <div>
+                        <input type="hidden" asp-for="Id" />
+                    </div>
+                    <br />
+                    <div>
+                        <label asp-for="Username" class="control-label">Username</label>
+                        <input type="text" asp-for="Email" />
+                    </div>
+                    <br />
+                    <div>
+                        <label asp-for="Email" class="control-label">Email</label>
+                        <input type="text" asp-for="Email" />
+                    </div>
+                    <br />
+                    <div>
+                        <label asp-for="Year" class="control-label">Year</label>
+                        <input type="number" asp-for="Year" />
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <input type="submit" value="Save" />
+                    </div>
+                </form>
             </div>
-            <br />
-            <div>
-                <label asp-for="Username" class="control-label">Username</label>
-                <input type="text" asp-for="Email" />
-            </div>
-            <br />
-            <div>
-                <label asp-for="Email" class="control-label">Email</label>
-                <input type="text" asp-for="Email" />
-            </div>
-            <br />
-            <div>
-                <label asp-for="Year" class="control-label">Year</label>
-                <input type="number" asp-for="Year" />
-            </div>
-            <br />
-            <div class="form-group">
-                <input type="submit" value="Save" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>

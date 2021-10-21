@@ -1,5 +1,5 @@
 ﻿body {
-    display: flex;
+   /* display: flex;*/
     flex-direction: column;
     margin: 0;
     font-family: 'Montserrat', sans-serif;
@@ -29,16 +29,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .header {
-    width : 100%;
+    width: 89%;
+    float: right;
     padding: 10px;
-    top : 0;
-    left : 0;
+    margin-right: 5%;
+    top: 0;
+    left: 0;
     right: 0;
     z-index: 1000;
 }
 
 .header__inner {
-   height : 50px;
+   height : 55px;
    display: flex;
    justify-content: space-between;
    align-items: center;

@@ -5,12 +5,10 @@ using System.Threading.Tasks;
 
 namespace ProjectManager
 {
-    public class ColumnTasks
+    public class ColumnTask
     {
         public Guid Id { get; set; }
         public Guid Taskid { get; set; }
         public Guid Columnid { get; set; }
-
-
     }
 }

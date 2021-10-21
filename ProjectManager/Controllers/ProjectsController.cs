@@ -20,9 +20,9 @@ namespace ProjectManager.Controllers
         }
         public ActionResult Index()
         {
+            ViewBag.dataManager = dataManager;
             return View(dataManager);
         }
-    
         public IActionResult CreateProject()
         {
             Project project = new Project

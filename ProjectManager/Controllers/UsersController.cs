@@ -17,7 +17,11 @@ namespace ProjectManager.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index() => View(_userManager.Users.ToList());
+        public IActionResult Index()
+        {
+
+            return View(_userManager.Users.ToList());
+        }
 
         public IActionResult Create() => View();
 

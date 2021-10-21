@@ -1,0 +1,20 @@
+{
+  "projectid": "ad9e1fd7-19f9-47cf-b023-e7f4c8880745",
+  "columns": [
+    {
+      "columnid": "bb20a1be-6831-4439-bdbd-7cdf0f6fe50f",
+      "tasks": [
+        {
+          "taskid": "3e306897-9b44-47fc-9753-4d4133d4bbaa"
+        },
+        {
+          "taskid": "e0b39af0-d869-4b64-baba-08682ccd081e"
+        }
+      ]
+    },
+    {
+      "columnid": "09c07269-c686-416b-80ba-99a8a8f1c7be",
+      "tasks": []
+    }
+  ]
+}

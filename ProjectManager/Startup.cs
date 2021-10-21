@@ -28,7 +28,6 @@ namespace ProjectManager
 
             Configuration.Bind("ProjectManager", new Config());
 
-            services.AddTransient<IAcsessLevelsRepository, EFAcsessLevelsRepository>();
             services.AddTransient<IChatRepository, EFChatRepository>();
             services.AddTransient<IMessageRepository, EFMessageRepository>();
             services.AddTransient<IProjectRepository, EFProjectRepository>();

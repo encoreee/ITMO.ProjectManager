@@ -13,6 +13,9 @@ namespace ProjectManager
         public string Name { get; set; }
         public string Description { get; set; }
 
-       
+        public virtual ICollection<ColumnTask> ColumnTasks { get; set; }
+        public virtual ICollection<ProjectColumn> ProjectColumns { get; set; }
+
+
     }
 }

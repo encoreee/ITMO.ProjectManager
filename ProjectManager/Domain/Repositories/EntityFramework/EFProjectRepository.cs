@@ -15,10 +15,31 @@ namespace ProjectManager.Domain.Repositories.EntityFramework
         {
             this.context = context;
         }
-
+        Project IProjectRepository.getProjectByTask(Task task)
+        {
+            var columntask = context.ColumnTasks.FirstOrDefault(t => t.Taskid == task.Id);
+            var projectcolumn = context.ProjectColumns.FirstOrDefault(c => c.Columnid == columntask.Columnid);
+            return context.Projects.Where(c => c.Id == projectcolumn.Projectid).First();
+        }
         void IProjectRepository.deleteProject(Guid id)
         {
-            context.Projects.Remove(new Project() { Id = id });
+            Project prj = context.Projects.Where(p => p.Id == id).First();
+            var pjcols = context.ProjectColumns.Where(x => x.Projectid == id);
+            foreach (var pjcol in pjcols)
+            {
+                var col = context.Columns.Where(x => x.Id == pjcol.Columnid).First();
+                var coltsks = context.ColumnTasks.Where(x => x.Columnid == col.Id);
+                foreach (var coltsk in coltsks)
+                {
+                    var task = context.Tasks.Where(x => x.Id == coltsk.Taskid).First();
+                    context.Tasks.Remove(task);
+                    context.ColumnTasks.Remove(coltsk);
+                }
+                context.Columns.Remove(col);
+                context.ProjectColumns.Remove(pjcol);
+            }
+            
+            context.Projects.Remove(prj);
             context.SaveChanges();
         }
 
@@ -65,7 +86,7 @@ namespace ProjectManager.Domain.Repositories.EntityFramework
 
         void IProjectRepository.addColumnToProject(Column column, Project project)
         {
-            ProjectColumns projectcolumn = new ProjectColumns
+            ProjectColumn projectcolumn = new ProjectColumn
             {
                 Id = new Guid(),
                 Projectid = project.Id,

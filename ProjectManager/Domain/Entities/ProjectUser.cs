@@ -9,8 +9,11 @@ namespace ProjectManager
     public partial class ProjectUser
     {
         public Guid Id { get; set; }
+        public Guid ProjectId { get; set; }
+        public Project Project { get; set; }
+        public User User { get; set; }
 
-        public  Guid Projectid { get; set; }
-        public Guid userid { get; set; }
+
+
     }
 }

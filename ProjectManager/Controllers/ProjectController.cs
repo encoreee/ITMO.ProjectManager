@@ -10,7 +10,7 @@ using ProjectManager.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using System.IO;
 using System.Text.Json;
-
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ProjectManager.Controllers
 {
@@ -18,24 +18,23 @@ namespace ProjectManager.Controllers
     {
         private readonly DataManager dataManager;
         private readonly UserManager<User> _userManager;
-
-
         public ProjectController(DataManager dataManager, UserManager<User> userManager)
         {
             this.dataManager = dataManager;
             _userManager = userManager;
         }
+
         public async Task <ActionResult> Index(String projectid)
         {
             ViewData["userid"] = _userManager.GetUserId(User);
             ViewData["projectid"] = projectid;
+            ViewBag.dataManager = dataManager;
             return View(dataManager);
         }
+
         public IActionResult CreateTask(String projectid, String columnid)
         {
             Guid guid = Guid.NewGuid();
-
-
 
             Task task = new Task
             {
@@ -47,7 +46,6 @@ namespace ProjectManager.Controllers
                 Priority = 0
             };
 
-
             Column column = dataManager.columns.getColumnsById(new Guid(columnid));
             dataManager.tasks.addTask(task);
             dataManager.columns.addTaskToColumn(task, column);
@@ -56,6 +54,7 @@ namespace ProjectManager.Controllers
                 projectid = projectid
             });
         }
+
         public IActionResult CreateColumn(String projectid)
         {
             Guid guid = Guid.NewGuid();
@@ -82,6 +81,7 @@ namespace ProjectManager.Controllers
                 projectid = projectid
             });
         }
+
         public IActionResult DeleteTask(String projectid, String taskid)
         {
             dataManager.tasks.DeleteTask(new Guid(taskid));
@@ -90,6 +90,7 @@ namespace ProjectManager.Controllers
                 projectid = projectid
             });
         }
+
         public  IActionResult ChangeColumn(String projectid, String columnid, String taskid)
         {
 
@@ -103,32 +104,41 @@ namespace ProjectManager.Controllers
             });
         }
 
-        
-
         public IActionResult EditTask(String projectid, String taskid)
         {
-
+            ViewBag.dataManager = dataManager;
             Task task = dataManager.tasks.getTaskById(new Guid(taskid));
             if (task == null)
             {
                 return NotFound();
             }
-            EditTaskViewModel model = new EditTaskViewModel
-            {
-                Id = task.Id,
-                Projectid = new Guid(projectid),
-                Name = task.Name,
-                Description = task.Description,
-                Startdate = task.Startdate,
-                Enddate = task.Enddate,
-                Priority = task.Priority
+            var users = _userManager.Users;
+            var productsList = (from user in users
+                                select new SelectListItem()
+                                {
+                                    Text = user.UserName,
+                                    Value = user.Id.ToString(),
 
-            };
+                                }).ToList();
+            EditTaskViewModel model = new EditTaskViewModel();
+            model.Id = task.Id;
+            model.Projectid = new Guid(projectid);
+            model.Name = task.Name;
+            model.Description = task.Description;
+            model.Startdate = task.Startdate;
+            model.Enddate = task.Enddate;
+            model.Priority = task.Priority;
+            model.ListOfUsers = productsList;
+            if (task.Userid != null)
+            {
+                model.Userid = task.Userid;
+            }
+
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult EditTask(EditTaskViewModel model)
+        public async Task<IActionResult> EditTask(EditTaskViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -142,6 +152,10 @@ namespace ProjectManager.Controllers
                     task.Enddate = model.Enddate;
                     task.Startdate = model.Startdate;
                     task.Priority = model.Priority;
+
+                    User user = _userManager.FindByIdAsync(model.Userid).GetAwaiter().GetResult();
+
+                    task.Userid = user.Id;
 
                     dataManager.tasks.saveTask(task);
 
@@ -159,7 +173,6 @@ namespace ProjectManager.Controllers
 
         public IActionResult EditColumn(String projectid, String Columnid)
         {
-
             Column column = dataManager.columns.getColumnsById(new Guid(Columnid));
             if (column == null)
             {
@@ -243,7 +256,5 @@ namespace ProjectManager.Controllers
                 projectid = model.Id
             });
         }
-
-
     }
 }

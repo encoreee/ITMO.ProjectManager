@@ -10,7 +10,7 @@ using ProjectManager;
 namespace ProjectManager.Migrations
 {
     [DbContext(typeof(ProjectManagerDBContext))]
-    [Migration("20211019111251_InitialCreate")]
+    [Migration("20211021204007_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,14 +51,14 @@ namespace ProjectManager.Migrations
                         new
                         {
                             Id = "44546e06-8719-4ad8-b88a-f271ae9d6eab",
-                            ConcurrencyStamp = "d2d9d84a-2b45-4e65-908e-76598f044366",
+                            ConcurrencyStamp = "82a55815-7144-4d28-a163-8c09f11b1b71",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "401CD605-BAEF-45CF-8BB5-FA69DA80DC63",
-                            ConcurrencyStamp = "2b8ade52-2709-4314-b5da-c66762dcee55",
+                            ConcurrencyStamp = "802120f6-b11a-42e6-ac76-f047fe80a791",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -251,20 +251,6 @@ namespace ProjectManager.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ProjectManager.AcsessLevel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Acsesslevel")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AcsessLevels");
-                });
-
             modelBuilder.Entity("ProjectManager.Chat", b =>
                 {
                     b.Property<Guid>("Id")
@@ -277,23 +263,6 @@ namespace ProjectManager.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Chats");
-                });
-
-            modelBuilder.Entity("ProjectManager.ChatMessage", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("Chatid")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("Messageid")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ChatMessages");
                 });
 
             modelBuilder.Entity("ProjectManager.Column", b =>
@@ -313,7 +282,7 @@ namespace ProjectManager.Migrations
                     b.ToTable("Columns");
                 });
 
-            modelBuilder.Entity("ProjectManager.ColumnTasks", b =>
+            modelBuilder.Entity("ProjectManager.ColumnTask", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -326,6 +295,10 @@ namespace ProjectManager.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Columnid");
+
+                    b.HasIndex("Taskid");
 
                     b.ToTable("ColumnTasks");
                 });
@@ -345,7 +318,12 @@ namespace ProjectManager.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("chatId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("chatId");
 
                     b.ToTable("Messages");
                 });
@@ -367,7 +345,7 @@ namespace ProjectManager.Migrations
                     b.ToTable("Projects");
                 });
 
-            modelBuilder.Entity("ProjectManager.ProjectColumns", b =>
+            modelBuilder.Entity("ProjectManager.ProjectColumn", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -380,6 +358,10 @@ namespace ProjectManager.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Columnid");
+
+                    b.HasIndex("Projectid");
 
                     b.ToTable("ProjectColumns");
                 });
@@ -390,13 +372,17 @@ namespace ProjectManager.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Projectid")
+                    b.Property<Guid>("ProjectId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("userid")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("ProjectUsers");
                 });
@@ -407,7 +393,7 @@ namespace ProjectManager.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Columnid")
+                    b.Property<Guid?>("ChatId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
@@ -416,19 +402,23 @@ namespace ProjectManager.Migrations
                     b.Property<DateTime>("Enddate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("Endtime")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Startdate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("Starttime")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Userid")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ChatId");
+
+                    b.HasIndex("Userid");
 
                     b.ToTable("Tasks");
                 });
@@ -447,13 +437,13 @@ namespace ProjectManager.Migrations
                         {
                             Id = "3b62472e-4f66-49fa-a20f-e7685b9565d8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "48b3053d-a897-4906-91df-cfe838883e82",
+                            ConcurrencyStamp = "fe7de99a-b505-4a34-a38e-fe483c669214",
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFgFQHwyEtid3Slom3bACtBQb1iXUN5Qtmx60DS7kQ9v5SFjb1tbj4vktUj9SMRr5A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDjyV0C410mAXR4cBjw4d9I9vDeY5qPbs+7kARuIIZbnqISemwspO2j7rtLe6ghdwA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -464,13 +454,13 @@ namespace ProjectManager.Migrations
                         {
                             Id = "13D24B5A-E7C9-42B0-BCD2-DF0956FEB2FB",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0c7ce26e-cf5f-42e0-a115-43464cc4a0fb",
+                            ConcurrencyStamp = "0591440a-9423-4a5d-8a79-9b0f59ad0d97",
                             Email = "user1@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@EMAIL.COM",
                             NormalizedUserName = "USER1",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPTiOCyePi1gH2MqU1Ta+j/UL20txeFOmEyTc6SI1pf6ZVlrxOUQl8xmHbmzP1kCbg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKDJnDMy3BtmIcYDBJBtpub86Z4VuGGpG/KmQNKFHZhGKTQkFAVgey0ErWVGmScABw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -528,6 +518,108 @@ namespace ProjectManager.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ProjectManager.ColumnTask", b =>
+                {
+                    b.HasOne("ProjectManager.Column", null)
+                        .WithMany("ColumnTasks")
+                        .HasForeignKey("Columnid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProjectManager.Task", null)
+                        .WithMany("ColumnTasks")
+                        .HasForeignKey("Taskid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ProjectManager.Message", b =>
+                {
+                    b.HasOne("ProjectManager.Chat", "chat")
+                        .WithMany("Messagies")
+                        .HasForeignKey("chatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("chat");
+                });
+
+            modelBuilder.Entity("ProjectManager.ProjectColumn", b =>
+                {
+                    b.HasOne("ProjectManager.Column", null)
+                        .WithMany("ProjectColumns")
+                        .HasForeignKey("Columnid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProjectManager.Project", null)
+                        .WithMany("ProjectColumns")
+                        .HasForeignKey("Projectid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ProjectManager.ProjectUser", b =>
+                {
+                    b.HasOne("ProjectManager.Project", "Project")
+                        .WithMany("ProjectUsers")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProjectManager.User", "User")
+                        .WithMany("ProjectUsers")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Project");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ProjectManager.Task", b =>
+                {
+                    b.HasOne("ProjectManager.Chat", "Chat")
+                        .WithMany()
+                        .HasForeignKey("ChatId");
+
+                    b.HasOne("ProjectManager.User", null)
+                        .WithMany("Tasks")
+                        .HasForeignKey("Userid");
+
+                    b.Navigation("Chat");
+                });
+
+            modelBuilder.Entity("ProjectManager.Chat", b =>
+                {
+                    b.Navigation("Messagies");
+                });
+
+            modelBuilder.Entity("ProjectManager.Column", b =>
+                {
+                    b.Navigation("ColumnTasks");
+
+                    b.Navigation("ProjectColumns");
+                });
+
+            modelBuilder.Entity("ProjectManager.Project", b =>
+                {
+                    b.Navigation("ProjectColumns");
+
+                    b.Navigation("ProjectUsers");
+                });
+
+            modelBuilder.Entity("ProjectManager.Task", b =>
+                {
+                    b.Navigation("ColumnTasks");
+                });
+
+            modelBuilder.Entity("ProjectManager.User", b =>
+                {
+                    b.Navigation("ProjectUsers");
+
+                    b.Navigation("Tasks");
                 });
 #pragma warning restore 612, 618
         }

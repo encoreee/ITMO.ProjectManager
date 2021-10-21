@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -14,6 +15,10 @@ namespace ProjectManager
         public DateTime Enddate { get; set; }
         public string Description { get; set; }
         public int Priority { get; set; }
+        public string Userid { get; set; }
+
+        public virtual Chat Chat { get; set; }
+        public virtual ICollection<ColumnTask> ColumnTasks { get; set; }
 
     }
 }

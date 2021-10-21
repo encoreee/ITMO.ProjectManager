@@ -9,21 +9,19 @@ namespace ProjectManager.Domain
     public class DataManager
     {
 
-        public IAcsessLevelsRepository acsessLevels { get; set; }
         public IChatRepository chats { get; set; }
         public IMessageRepository messages { get; set; }
         public IProjectRepository projects { get; set; }
         public ITaskRepository tasks { get; set; }
         public IColumnsRepository columns { get; set; }
 
-        public DataManager(IAcsessLevelsRepository acsessLevelsRepository,
+        public DataManager(
             IChatRepository chatRepository,
             IMessageRepository messageRepository,
             IProjectRepository projectRepository,
             ITaskRepository taskRepository,
             IColumnsRepository columnsRepository)
         {
-            acsessLevels = acsessLevelsRepository;
             chats = chatRepository;
             messages = messageRepository;
             projects = projectRepository;

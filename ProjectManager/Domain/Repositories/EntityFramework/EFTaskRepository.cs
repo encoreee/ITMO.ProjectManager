@@ -15,7 +15,12 @@ namespace ProjectManager.Domain.Repositories.EntityFramework
         {
             this.context = context;
         }
+        IQueryable<Task> ITaskRepository.getTasksByUserId(Guid userid) 
+        {
+            var tasks = context.Tasks.Where(x => x.Userid == userid.ToString());
 
+            return tasks;
+        }
         void ITaskRepository.DeleteTask(Guid id)
         {
 
@@ -36,6 +41,8 @@ namespace ProjectManager.Domain.Repositories.EntityFramework
         {
             return context.Tasks.FirstOrDefault(x => x.Id == id);
         }
+
+  
 
         IQueryable<Task> ITaskRepository.getTasks()
         {

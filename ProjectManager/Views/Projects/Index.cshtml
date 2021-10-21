@@ -1,77 +1,136 @@
 ﻿@model ProjectManager.Domain.DataManager
 @using ProjectManager.Utils
+@using Microsoft.AspNetCore.Identity
 
-<div class="intro__inner">
-    <div>
-        <h1 class="header-content-title">Projects</h1>
-        <div class="projects-area">
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
+
+<div class="menu">
+
+
+    <div class="menu-icon-close">
+        <img src="~/images/close-btn.png">
+    </div>
+
+
+
+    @if (User.Identity.IsAuthenticated)
+    {
+
+        DataManager dataManager = ViewBag.dataManager;
+        UserManager.GetUserName(User);
+        var user = UserManager.FindByIdAsync(UserManager.GetUserId(User)).GetAwaiter().GetResult();
+        var tsks = dataManager.tasks.getTasksByUserId(new Guid(user.Id));
+
+        <h3>Tasks for: @user.UserName</h3>
+        <br />
+        <ul>
             @{
-                var projects = Model.projects.getProjects();
-
-                foreach (var project in projects)
+                foreach (var task in tsks)
                 {
-                    DateTime endofproject = new DateTime();
-                    var taskstocalc = new List<ProjectManager.Task>();
-                    var columns = Model.projects.getColumnsByProjectId(project.Id);
+                    ProjectManager.Project project = dataManager.projects.getProjectByTask(task);
+                    ProjectManager.Column column = dataManager.columns.getColumnsByTask(task);
 
-                    foreach (var col in columns)
-                    {
-                        var tasks = Model.columns.getTasksByColumnId(col.Id);
-                        foreach (var task in tasks)
+
+                    <li>
+                        <a class="nav__link" asp-controller="Project"
+                           asp-action="EditTask"
+                           asp-route-projectid="@project.Id.ToString()"
+                           asp-route-columnid="@column.Id"
+                           asp-route-taskid="@task.Id">
+                            @task.Name
+                        </a>
+                    </li>
+                }
+            }
+        </ul>
+
+    }
+
+</div>
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="icon-menu">
+        <img src="~/images/menu-ham-icon.png">
+    </div>
+}
+
+<div class="intro__pjct">
+    <div class="container">
+        <div class="intro__inner">
+            <div>
+                <h1 class="header-content-title">Projects</h1>
+                <div class="projects-area">
+
+                    @{
+                        var projects = Model.projects.getProjects();
+
+                        foreach (var project in projects)
                         {
+                            DateTime endofproject = new DateTime();
+                            var taskstocalc = new List<ProjectManager.Task>();
+                            var columns = Model.projects.getColumnsByProjectId(project.Id);
 
-                            taskstocalc.Add(task);
-                            if (endofproject.IsEmpty())
+                            foreach (var col in columns)
                             {
-                                endofproject = task.Enddate;
-                            }
-                            else
-                            {
-                                if (endofproject > task.Enddate)
+                                var tasks = Model.columns.getTasksByColumnId(col.Id);
+                                foreach (var task in tasks)
                                 {
-                                    continue;
-                                }
-                                else
-                                {
-                                    endofproject = task.Enddate;
-                                }
 
+                                    taskstocalc.Add(task);
+                                    if (endofproject.IsEmpty())
+                                    {
+                                        endofproject = task.Enddate;
+                                    }
+                                    else
+                                    {
+                                        if (endofproject > task.Enddate)
+                                        {
+                                            continue;
+                                        }
+                                        else
+                                        {
+                                            endofproject = task.Enddate;
+                                        }
+
+                                    }
+                                }
                             }
+
+                            <div class="project" project-id="@project.Id">
+                                <div class="project-header-wrapper">
+                                    <div class="project-header">
+                                        @project.Name
+                                    </div>
+                                    <div class="icon-project-toggle-wrapper"></div>
+                                    <div class="icon-project-close-wrapper"></div>
+                                </div>
+                                <div class="project-content">@project.Description</div>
+                                <br />
+                                <div class="endofproject__lbl">
+                                    @endofproject.ToString("dd.MM.yyyy HH:mm:ss")
+                                </div>
+                                <br />
+                                <div class="editproject-button">
+                                    <a class="nav__link" asp-controller="Projects"
+                                       asp-action="EditProject"
+                                       asp-route-projectid="@project.Id">
+                                        Edit
+                                    </a>
+                                </div>
+                            </div>
+
                         }
+
                     }
 
-                    <div class="project" project-id="@project.Id">
-                        <div class="project-header-wrapper">
-                            <div class="project-header">
-                                @project.Name
-                            </div>
-                            <div class="icon-project-toggle-wrapper"></div>
-                            <div class="icon-project-close-wrapper"></div>
-                        </div>
-                        <div class="project-content">@project.Description</div>
-                        <br />
-                        <div class="endofproject__lbl">
-                            @endofproject.ToString("dd.MM.yyyy HH:mm:ss")
-                        </div>
-                        <br />
-                        <div class="editproject-button">
-                            <a class="nav__link" asp-controller="Projects"
-                               asp-action="EditProject"
-                               asp-route-projectid="@project.Id">
-                                Edit
-                            </a>
-                        </div>
-                    </div>
-
-                }
-
-            }
-
+                </div>
+            </div>
+            <div class="newproject-button">
+                <a asp-action="CreateProject"><b>+</b></a>
+            </div>
         </div>
     </div>
-    <div class="newproject-button">
-        <a asp-action="CreateProject"><b>+</b></a>
-    </div>
-</div>
 
+</div>
