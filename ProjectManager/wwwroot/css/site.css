@@ -1,11 +1,13 @@
 ﻿body {
-   /* display: flex;*/
+    /* display: flex;*/
     flex-direction: column;
     margin: 0;
     font-family: 'Montserrat', sans-serif;
     font-size: 15px;
     color: #333;
     line-height: 1.6;
+    background-image: url(../images/mainbackground.jpg);
+    background-size: cover;
 }
 
 *,
