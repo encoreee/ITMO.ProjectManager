@@ -41,11 +41,31 @@ h1, h2, h3, h4, h5, h6 {
     z-index: 1000;
 }
 
+.footer {
+    position: absolute;
+    width: 89%;
+    float: right;
+    padding: 10px;
+    margin-right: 5%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: 75px;
+    text-transform: uppercase;
+}
+
 .header__inner {
    height : 55px;
    display: flex;
    justify-content: space-between;
    align-items: center;
+}
+.footer__inner {
+    height: 55px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .header__logo {

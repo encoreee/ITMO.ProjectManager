@@ -178,3 +178,5 @@ D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\ProjectManager.cspr
 D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\Razor\Views\Project\EditColumn.cshtml.g.cs
 D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\Razor\Views\Projects\EditProject.cshtml.g.cs
 D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\Razor\Views\Project\EditProject.cshtml.g.cs
+D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\Razor\Views\Users\AddProjectToUser.cshtml.g.cs
+D:\Repository\ProjectManager\ProjectManager\obj\Debug\net5.0\Razor\Views\Users\EditFromPersonal.cshtml.g.cs

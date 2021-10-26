@@ -11,29 +11,24 @@
 
 
 <div class="menu">
-
-
     <div class="menu-icon-close">
         <img src="~/images/close-btn.png">
     </div>
-
     @if (User.Identity.IsAuthenticated)
     {
 
         DataManager dataManager = ViewBag.dataManager;
-        UserManager.GetUserName(User);
         var user = UserManager.FindByIdAsync(UserManager.GetUserId(User)).GetAwaiter().GetResult();
-        var tasks = dataManager.tasks.getTasksByUserId(new Guid(user.Id));
+        var tsks = dataManager.tasks.getTasksByUserId(new Guid(user.Id));
 
         <h3>Tasks for: @user.UserName</h3>
-
+        <br />
         <ul>
             @{
-                foreach (var task in tasks)
+                foreach (var task in tsks)
                 {
                     ProjectManager.Project project = dataManager.projects.getProjectByTask(task);
                     ProjectManager.Column column = dataManager.columns.getColumnsByTask(task);
-
 
                     <li>
                         <a class="nav__link" asp-controller="Project"
@@ -47,10 +42,30 @@
                 }
             }
         </ul>
+        <br /><br />
+        <h3>Projects for: @user.UserName</h3>
 
+        var userprojects = dataManager.projects.findProjectsByUserId(new Guid(user.Id));
+
+        <ul>
+            @{
+                foreach (var proj in userprojects)
+                {
+                    <li>
+                        <a class="nav__link" asp-controller="Project"
+                           asp-action="Index"
+                           asp-route-projectid="@proj.Id.ToString()">
+                            @proj.Name
+                        </a>
+                    </li>
+                }
+            }
+        </ul>
+        <br />
     }
 
 </div>
+
 @if (User.Identity.IsAuthenticated)
 {
     <div class="icon-menu">
@@ -184,75 +199,83 @@
                                         foreach (var column in columnstodraw)
                                         {
 
-                                            <div class="column" column-id="@column.Id">
+                    <div class="column" column-id="@column.Id">
 
 
 
-                                                <div class="column-header-wrapper">
-                                                    <div class="column-header">
-                                                        @column.Name
-                                                    </div>
-                                                    <div class="icon-column-close-wrapper"></div>
-                                                </div>
+                        <div class="column-header-wrapper">
+                            <div class="column-header">
+                                @column.Name
+                            </div>
+                            <div class="icon-column-close-wrapper"></div>
+                        </div>
 
-                                                @{
-                                                    List<ProjectManager.Models.Task> tasksInOrder = columnsInOrder.First(x => x.columnid == column.Id.ToString()).tasks.ToList();
+                        @{
+                            List<ProjectManager.Models.Task> tasksInOrder = columnsInOrder.First(x => x.columnid == column.Id.ToString()).tasks.ToList();
 
-                                                    var taskstodraw = new List<ProjectManager.Task>();
-                                                    foreach (var tsinorder in tasksInOrder)
-                                                    {
-                                                        var task = Model.tasks.getTaskById(new Guid(tsinorder.taskid.ToString()));
-                                                        taskstodraw.Add(task);
-                                                    }
-                                                    var tasks = Model.columns.getTasksByColumnId(new Guid(column.Id.ToString()));
-                                                    foreach (var ts in tasks)
-                                                    {
-                                                        var t = tasksInOrder.Where(x => x.taskid == ts.Id.ToString());
-                                                        if (t.Count() != 0)
-                                                        {
-                                                            continue;
-                                                        }
-                                                        else
-                                                        {
-                                                            taskstodraw.Add(ts);
-                                                        }
+                            var taskstodraw = new List<ProjectManager.Task>();
+                            foreach (var tsinorder in tasksInOrder)
+                            {
+                                var task = Model.tasks.getTaskById(new Guid(tsinorder.taskid.ToString()));
+                                taskstodraw.Add(task);
+                            }
+                            var tasks = Model.columns.getTasksByColumnId(new Guid(column.Id.ToString()));
+                            foreach (var ts in tasks)
+                            {
+                                var t = tasksInOrder.Where(x => x.taskid == ts.Id.ToString());
+                                if (t.Count() != 0)
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    taskstodraw.Add(ts);
+                                }
 
-                                                    }
-                                                }
+                            }
+                        }
 
-                                                @{
-                                                    for (int i = 0; i < taskstodraw.Count(); i++)
-                                                    {
-                                                        <div class="task" task-id="@taskstodraw.ElementAt(i).Id">
-                                                            <div class="task-header-wrapper">
-                                                                <div class="task-header">@taskstodraw.ElementAt(i).Name</div>
-                                                                <div class="icon-task-close-wrapper"></div>
-                                                                <div class="icon-task-toggle-wrapper"></div>
-                                                            </div>
-                                                            <div class="task-content" contentEditable="true">@taskstodraw.ElementAt(i).Description</div>
-                                                            <div class="edittask-button">
-                                                                <a class="nav__link" asp-controller="Project"
-                                                                   asp-action="EditTask"
-                                                                   asp-route-projectid="@ViewData["projectid"].ToString()"
-                                                                   asp-route-columnid="@column.Id"
-                                                                   asp-route-taskid="@taskstodraw.ElementAt(i).Id">
-                                                                    Edit
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    }
-                                                }
+                        @{
+                            for (int i = 0; i < taskstodraw.Count(); i++)
+                            {
+                                <div class="task" task-id="@taskstodraw.ElementAt(i).Id">
+                                    <div class="task-header-wrapper">
+                                        <div class="task-header">@taskstodraw.ElementAt(i).Name</div>
+                                        <div class="icon-task-close-wrapper"></div>
+                                        <div class="icon-task-toggle-wrapper"></div>
+                                    </div>
+                                    <div class="task-content" contentEditable="true">@taskstodraw.ElementAt(i).Description</div>
+                                    <div class="edittask-button">
+                                        <a class="nav__link" asp-controller="Project"
+                                           asp-action="EditTask"
+                                           asp-route-projectid="@ViewData["projectid"].ToString()"
+                                           asp-route-columnid="@column.Id"
+                                           asp-route-taskid="@taskstodraw.ElementAt(i).Id">
+                                            Edit
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        <div class="newtask-button">
+                            <a class="nav__link"
+                               asp-controller="Project"
+                               asp-action="CreateTask"
+                               asp-route-projectid="@ViewData["projectid"].ToString()"
+                               asp-route-columnid="@column.Id">
+                                +
+                            </a>
+                        </div>
+                        <div class="editcolumn-button">
+                            <a class="nav__link" asp-controller="Project"
+                               asp-action="EditColumn"
+                               asp-route-projectid="@ViewData["projectid"].ToString()"
+                               asp-route-columnid="@column.Id">
+                                Edit
+                            </a>
+                        </div>
 
-                                                <div class="newtask-button">
-                                                    <a class="nav__link"
-                                                       asp-controller="Project"
-                                                       asp-action="CreateTask"
-                                                       asp-route-projectid="@ViewData["projectid"].ToString()"
-                                                       asp-route-columnid="@column.Id">
-                                                        +
-                                                    </a>
-                                                </div>
-                                            </div>
+                    </div>
                                         }
 
                                     }

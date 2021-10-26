@@ -38,7 +38,7 @@ namespace ProjectManager.Domain.Repositories.EntityFramework
                 context.Columns.Remove(col);
                 context.ProjectColumns.Remove(pjcol);
             }
-            
+
             context.Projects.Remove(prj);
             context.SaveChanges();
         }
@@ -78,7 +78,7 @@ namespace ProjectManager.Domain.Repositories.EntityFramework
             }
         }
 
-        void  IProjectRepository.addProject(Project project)
+        void IProjectRepository.addProject(Project project)
         {
             context.Projects.Add(project);
             context.SaveChanges();
@@ -94,6 +94,44 @@ namespace ProjectManager.Domain.Repositories.EntityFramework
             };
 
             context.ProjectColumns.Add(projectcolumn);
+            context.SaveChanges();
+        }
+
+        IQueryable<Project> IProjectRepository.findProjectsByUserId(Guid id)
+        {
+            var items = context.ProjectUsers.Where(x => x.UserId == id);
+            var r = new List<Project>();
+            foreach (var item in items)
+            {
+                r.Add(context.Projects.FirstOrDefault(x => x.Id == item.ProjectId));
+            }
+            return r.AsQueryable();
+        }
+
+        public void addProjectToUser(User user, IQueryable<Project> projects)
+        {
+            foreach (var project in projects)
+            {
+                ProjectUser projectUser = new ProjectUser
+                {
+                    Id = Guid.NewGuid(),
+                    ProjectId = project.Id,
+                    UserId = new Guid(user.Id)
+                };
+                context.ProjectUsers.Add(projectUser);
+            }
+      
+            context.SaveChanges();
+        }
+
+        public void removeProjectFromUser(User user, IQueryable<String> projects)
+        {
+
+            foreach (var item in projects)
+            {
+                var prUser = context.ProjectUsers.Where(x => x.UserId.ToString() == user.Id && x.ProjectId.ToString() == item ).First();
+                context.ProjectUsers.Remove(prUser);
+            }
             context.SaveChanges();
         }
     }

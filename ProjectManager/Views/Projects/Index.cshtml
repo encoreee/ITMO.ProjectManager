@@ -7,14 +7,9 @@
 
 
 <div class="menu">
-
-
     <div class="menu-icon-close">
         <img src="~/images/close-btn.png">
     </div>
-
-
-
     @if (User.Identity.IsAuthenticated)
     {
 
@@ -32,7 +27,6 @@
                     ProjectManager.Project project = dataManager.projects.getProjectByTask(task);
                     ProjectManager.Column column = dataManager.columns.getColumnsByTask(task);
 
-
                     <li>
                         <a class="nav__link" asp-controller="Project"
                            asp-action="EditTask"
@@ -45,7 +39,26 @@
                 }
             }
         </ul>
+        <br /><br />
+        <h3>Projects for: @user.UserName</h3>
 
+                var userprojects = dataManager.projects.findProjectsByUserId(new Guid(user.Id));
+
+        <ul>
+            @{
+                foreach (var proj in userprojects)
+                {
+                    <li>
+                        <a class="nav__link" asp-controller="Project"
+                           asp-action="Index"
+                           asp-route-projectid="@proj.Id.ToString()">
+                            @proj.Name
+                        </a>
+                    </li>
+                }
+            }
+        </ul>
+        <br />
     }
 
 </div>

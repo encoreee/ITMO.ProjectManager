@@ -13,10 +13,10 @@ namespace ProjectManager.Domain.Repositories.Abstract
         void saveProject(Project project);
         void deleteProject(Guid id);
         void addProject(Project project);
-
         void addColumnToProject(Column column,Project project);
-
+        void addProjectToUser(User user, IQueryable<Project> projects);
+        void removeProjectFromUser(User user, IQueryable<String> projects);
         Project getProjectByTask(Task task);
-      
+        IQueryable<Project> findProjectsByUserId(Guid id);
     }
 }

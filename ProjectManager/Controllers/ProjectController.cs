@@ -153,12 +153,13 @@ namespace ProjectManager.Controllers
                     task.Startdate = model.Startdate;
                     task.Priority = model.Priority;
 
-                    User user = _userManager.FindByIdAsync(model.Userid).GetAwaiter().GetResult();
-
-                    task.Userid = user.Id;
-
+                    if (model.Userid != null) 
+                    {
+                        User user = _userManager.FindByIdAsync(model.Userid).GetAwaiter().GetResult();
+                        task.Userid = user.Id;
+                    }
+                    
                     dataManager.tasks.saveTask(task);
-
                     return RedirectToAction("Index", new
                     {
                         projectid = model.Projectid

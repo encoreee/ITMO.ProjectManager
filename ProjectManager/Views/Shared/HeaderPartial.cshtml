@@ -1,17 +1,23 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@using Microsoft.AspNetCore.Identity
 
 <div class="header">
     <div class="container">
-        
+
         <div class="header__inner">
-           
+
             <div class="header__logo">
                 <img src="~/images/PMlogo.svg" class="img" alt="My image" />
             </div>
             <div class="nav">
+
+                @{var user = UserManager.FindByIdAsync(UserManager.GetUserId(User)).GetAwaiter().GetResult();} 
+
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <a class="nav__link" asp-controller="Home" asp-action="About">Logged as: @User.Identity.Name</a>
+                    <a class="nav__link" asp-controller="Users" asp-action="EditFromPersonal" asp-route-id="@user.Id">Logged as: @User.Identity.Name</a>
                     if (User.IsInRole("admin"))
                     {
                         <a class="nav__link" asp-controller="Admin" asp-action="Index">Admin area</a>

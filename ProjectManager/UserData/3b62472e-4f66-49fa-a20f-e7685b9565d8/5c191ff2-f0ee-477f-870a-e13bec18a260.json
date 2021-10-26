@@ -1,0 +1,24 @@
+{
+  "projectid": "5c191ff2-f0ee-477f-870a-e13bec18a260",
+  "columns": [
+    {
+      "columnid": "5f5e8b08-ddad-4e09-95d5-136b6adebc38",
+      "tasks": [
+        {
+          "taskid": "08d760d5-9dbe-42eb-bfe6-22fc7451e82b"
+        },
+        {
+          "taskid": "72a31bf1-9272-4f2e-8f29-f6cbb5e2faae"
+        }
+      ]
+    },
+    {
+      "columnid": "d478ddb6-5730-4b3a-8abf-0f6a2f5ceaeb",
+      "tasks": [
+        {
+          "taskid": "66b32cee-21e9-4f58-b2cc-4a9a7b674e27"
+        }
+      ]
+    }
+  ]
+}

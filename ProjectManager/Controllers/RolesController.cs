@@ -67,6 +67,7 @@ namespace ProjectManager.Controllers
                 ChangeRoleViewModel model = new ChangeRoleViewModel
                 {
                     UserId = user.Id,
+                    UserName = user.UserName,
                     UserEmail = user.Email,
                     UserRoles = userRoles,
                     AllRoles = allRoles

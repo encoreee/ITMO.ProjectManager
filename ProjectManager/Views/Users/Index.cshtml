@@ -10,7 +10,7 @@
                         <tr>
                             <th>Username</th>
                             <th>Email</th>
-                            <th>Год</th>
+                            <th>Year</th>
                             <th></th>
                         </tr>
                         @foreach (var user in Model)
@@ -23,6 +23,7 @@
                                     <form asp-action="Delete" asp-route-id="@user.Id" method="post">
                                         <a class="admin-nav__link" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
                                         <a class="admin-nav__link" asp-action="ChangePassword" asp-route-id="@user.Id">Change password</a>
+                                        <a class="admin-nav__link" asp-action="AddProjectToUser" asp-route-id="@user.Id">Add Project</a>
                                         <button type="submit">
                                             Delete
                                         </button>

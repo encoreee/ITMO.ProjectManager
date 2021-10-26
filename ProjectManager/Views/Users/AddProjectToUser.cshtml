@@ -1,0 +1,24 @@
+﻿@model ProjectManager.ViewModels.ChangeUserProjectViewModel
+
+<div class="intro">
+    <div class="intro__inner">
+        <h1 class="header-content-title"> Admin area > Users > Add projects </h1>
+        <div class="admin-area">
+            <div class="admin-nav">
+                <h2>Change project for user @Model.UserName</h2>
+                <form asp-action="AddProjectToUser" method="post">
+                    <input type="hidden" name="userId" value="@Model.UserId" />
+                    <div class="form-group">
+
+                        @foreach (ProjectManager.Project project in Model.AllProjects)
+                        {
+                            <input type="checkbox" name="projects" value="@project.Id.ToString()" @(Model.UserPojects.Contains(project.Id.ToString()) ? "checked=\"checked\"" : "") />@project.Name <br />
+                        }
+                    </div>
+                    <button type="submit">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

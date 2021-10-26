@@ -256,11 +256,11 @@ $(function () {
         $(location).attr('href', url);
     });
 
-    $(".project-overall").dblclick(function () {
-        var project_id = $(".project-wrapper").attr("project-id");
-        var url = "/Project/EditProject/?projectid=" + project_id;
-        $(location).attr('href', url);
-    });
+    //$(".project-overall").dblclick(function () {
+    //    var project_id = $(".project-wrapper").attr("project-id");
+    //    var url = "/Project/EditProject/?projectid=" + project_id;
+    //    $(location).attr('href', url);
+    //});
 
     $(function () {
         $(".startdatepicker").datetimepicker(
