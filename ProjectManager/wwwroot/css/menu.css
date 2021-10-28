@@ -8,11 +8,12 @@ body {
 
 
 .menu {
-  background: #555 url('../images/menu-bg.jpg') repeat left top;
-  left: -400px;
-  height: 100%;
-  position: fixed;
-  width: 400px;
+    background: #555 url('../images/menu-bg.jpg') repeat left top;
+    left: -400px;
+    height: 100vh;
+    position: fixed;
+    width: 400px;
+    top: 0;
 }
 
 
@@ -61,16 +62,17 @@ body {
 }
 
 .icon-menu {
-  color: #fff;
-  cursor: pointer;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 20px;
-/*  padding-bottom: 25px;*/
-  padding-left: 25px;
-/*  padding-top: 25px;*/
-  text-decoration: none;
-  text-transform: uppercase;
-
+    color: #fff;
+    cursor: pointer;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    /*  padding-bottom: 25px;*/
+    padding-left: 25px;
+    padding-top: 10px;
+    text-decoration: none;
+    text-transform: uppercase;
+    position: absolute;
+    top: 0;
 }
 
 .icon-menu img {

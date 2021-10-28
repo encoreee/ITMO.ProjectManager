@@ -14,7 +14,6 @@
     {
 
         DataManager dataManager = ViewBag.dataManager;
-        UserManager.GetUserName(User);
         var user = UserManager.FindByIdAsync(UserManager.GetUserId(User)).GetAwaiter().GetResult();
         var tsks = dataManager.tasks.getTasksByUserId(new Guid(user.Id));
 
@@ -42,8 +41,8 @@
         <br /><br />
         <h3>Projects for: @user.UserName</h3>
 
-                var userprojects = dataManager.projects.findProjectsByUserId(new Guid(user.Id));
 
+        var userprojects = dataManager.projects.findProjectsByUserId(new Guid(user.Id));
         <ul>
             @{
                 foreach (var proj in userprojects)
@@ -77,62 +76,146 @@
                 <div class="projects-area">
 
                     @{
+                        DataManager dataManager2 = ViewBag.dataManager;
                         var projects = Model.projects.getProjects();
+                        var user2 = UserManager.FindByIdAsync(UserManager.GetUserId(User)).GetAwaiter().GetResult();
 
                         foreach (var project in projects)
                         {
-                            DateTime endofproject = new DateTime();
-                            var taskstocalc = new List<ProjectManager.Task>();
-                            var columns = Model.projects.getColumnsByProjectId(project.Id);
-
-                            foreach (var col in columns)
+                            if (User.IsInRole("admin"))
                             {
-                                var tasks = Model.columns.getTasksByColumnId(col.Id);
-                                foreach (var task in tasks)
-                                {
+                                String strdate = "";
+                                DateTime endofproject = new DateTime();
+                                var taskstocalc = new List<ProjectManager.Task>();
+                                var columns = Model.projects.getColumnsByProjectId(project.Id);
 
-                                    taskstocalc.Add(task);
-                                    if (endofproject.IsEmpty())
+                                foreach (var col in columns)
+                                {
+                                    var tasks = Model.columns.getTasksByColumnId(col.Id);
+                                    foreach (var task in tasks)
                                     {
-                                        endofproject = task.Enddate;
-                                    }
-                                    else
-                                    {
-                                        if (endofproject > task.Enddate)
-                                        {
-                                            continue;
-                                        }
-                                        else
-                                        {
-                                            endofproject = task.Enddate;
-                                        }
+
+
+                                        taskstocalc.Add(task);
 
                                     }
                                 }
-                            }
+                                if (taskstocalc.Count() != 0)
+                                {
+                                    foreach (var col in columns)
+                                    {
+                                        var tasks = Model.columns.getTasksByColumnId(col.Id);
+                                        foreach (var task in tasks)
+                                        {
 
-                            <div class="project" project-id="@project.Id">
-                                <div class="project-header-wrapper">
-                                    <div class="project-header">
-                                        @project.Name
+                                            taskstocalc.Add(task);
+                                            if (endofproject.IsEmpty())
+                                            {
+                                                endofproject = task.Enddate;
+                                            }
+                                            else
+                                            {
+                                                if (endofproject > task.Enddate)
+                                                {
+                                                    continue;
+                                                }
+                                                else
+                                                {
+                                                    endofproject = task.Enddate;
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                    strdate = endofproject.ToString("dd.MM.yyyy HH:mm:ss");
+                                }
+                                else
+                                {
+                                    strdate = "No tasks in project";
+                                }
+
+                                <div class="project" project-id="@project.Id">
+                                    <div class="project-header-wrapper">
+                                        <div class="project-header">
+                                            @project.Name
+                                        </div>
+                                        <div class="icon-project-close-wrapper"></div>
+                                        <div class="icon-project-toggle-wrapper"></div>
                                     </div>
-                                    <div class="icon-project-toggle-wrapper"></div>
-                                    <div class="icon-project-close-wrapper"></div>
+                                    <div class="project-content">@project.Description</div>
+                                    <br />
+                                    <div class="endofproject__lbl">
+                                        @strdate
+                                    </div>
+                                    <br />
+                                    <div class="editproject-button">
+                                        <a class="nav__link" asp-controller="Projects"
+                                           asp-action="EditProject"
+                                           asp-route-projectid="@project.Id">
+                                            Edit
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="project-content">@project.Description</div>
-                                <br />
-                                <div class="endofproject__lbl">
-                                    @endofproject.ToString("dd.MM.yyyy HH:mm:ss")
-                                </div>
-                                <br />
-                                <div class="editproject-button">
-                                    <a class="nav__link" asp-controller="Projects"
-                                       asp-action="EditProject"
-                                       asp-route-projectid="@project.Id">
-                                        Edit
-                                    </a>
-                                </div>
-                            </div>
+                            }
+                            else
+                            {
+                                var userprojects = dataManager2.projects.findProjectsByUserId(new Guid(user2.Id));
+                                if (userprojects.Contains(project))
+                                {
+                                    DateTime endofproject = new DateTime();
+                                    var taskstocalc = new List<ProjectManager.Task>();
+                                    var columns = Model.projects.getColumnsByProjectId(project.Id);
+
+                                    foreach (var col in columns)
+                                    {
+                                        var tasks = Model.columns.getTasksByColumnId(col.Id);
+                                        foreach (var task in tasks)
+                                        {
+
+                                            taskstocalc.Add(task);
+                                            if (endofproject.IsEmpty())
+                                            {
+                                                endofproject = task.Enddate;
+                                            }
+                                            else
+                                            {
+                                                if (endofproject > task.Enddate)
+                                                {
+                                                    continue;
+                                                }
+                                                else
+                                                {
+                                                    endofproject = task.Enddate;
+                                                }
+
+                                            }
+                                        }
+                                    }
+
+                                    <div class="project" project-id="@project.Id">
+                                        <div class="project-header-wrapper">
+                                            <div class="project-header">
+                                                @project.Name
+                                            </div>
+                                            <div class="icon-project-close-wrapper"></div>
+                                            <div class="icon-project-toggle-wrapper"></div>
+                                        </div>
+                                        <div class="project-content">@project.Description</div>
+                                        <br />
+                                        <div class="endofproject__lbl">
+                                            @endofproject.ToString("dd.MM.yyyy HH:mm:ss")
+                                        </div>
+                                        <br />
+                                        <div class="editproject-button">
+                                            <a class="nav__link" asp-controller="Projects"
+                                               asp-action="EditProject"
+                                               asp-route-projectid="@project.Id">
+                                                Edit
+                                            </a>
+                                        </div>
+                                    </div>
+                                }
+                            }
 
                         }
 

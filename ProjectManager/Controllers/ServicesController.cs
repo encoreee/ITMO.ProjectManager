@@ -18,8 +18,6 @@ namespace ProjectManager.Controllers
         }
 
 
-
-
         [HttpPost]
         public async Task<IActionResult> makeSequence([FromBody] Models.Project project)
         {

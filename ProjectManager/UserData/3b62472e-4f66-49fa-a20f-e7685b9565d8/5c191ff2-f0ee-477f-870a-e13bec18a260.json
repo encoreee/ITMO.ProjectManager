@@ -16,9 +16,16 @@
       "columnid": "d478ddb6-5730-4b3a-8abf-0f6a2f5ceaeb",
       "tasks": [
         {
+          "taskid": "b5a95eda-04b0-4f98-9a99-8ad1232933c9"
+        },
+        {
           "taskid": "66b32cee-21e9-4f58-b2cc-4a9a7b674e27"
         }
       ]
+    },
+    {
+      "columnid": "f1ffb4d7-c238-42e5-861d-26bc79322c1d",
+      "tasks": []
     }
   ]
 }

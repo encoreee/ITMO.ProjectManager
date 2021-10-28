@@ -17,7 +17,7 @@ namespace ProjectManager
         public int Priority { get; set; }
         public string Userid { get; set; }
 
-        public virtual Chat Chat { get; set; }
+        public Guid Chatid { get; set; }
         public virtual ICollection<ColumnTask> ColumnTasks { get; set; }
 
     }

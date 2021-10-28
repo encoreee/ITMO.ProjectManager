@@ -74,6 +74,49 @@
 }
 
 
+<div class="chatmenu">
+    <div class="chatmenu-icon-close">
+        <img src="~/images/close-btn.png">
+    </div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        var taskid = ViewData["taskid"];
+        if (taskid != null)
+        {
+            var chat = Model.chats.getChatByTaskId(new Guid(taskid.ToString()));
+            var messagies = Model.messages.getMessagiesByChatId(chat.Id);
+            <div class="msger-chat" chat-id="@chat.Id">
+                @foreach (var item in messagies)
+                    {
+                    var user = UserManager.FindByIdAsync(item.UserId.ToString()).GetAwaiter().GetResult();
+                        DateTime time = (DateTime) item.Datetime;
+                        <div class="msgcontainer">
+                        @*<img src="/w3images/bandmember.jpg" alt="Avatar">*@
+                        <p>@item.Text</p>
+                        <span class="time-right">@time.ToString("HH:mm")</span>
+                        <span class="userright">@user.UserName</span>
+                    </div>
+                }
+            </div>
+        }
+    }
+    <form class="msger-inputarea">
+        <input type="text" class="msger-input" placeholder="Enter your message...">
+        <button type="submit" class="msger-send-btn">Send</button>
+    </form>
+</div>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="icon-chatmenu">
+        <img src="~/images/menu-ham-icon.png">
+    </div>
+}
+
+
+
+
+
 
 <div class="intro__pjct">
     <div class="container">
@@ -132,7 +175,7 @@
                                                             <div class="icon-task-close-wrapper"></div>
                                                             <div class="icon-task-toggle-wrapper"></div>
                                                         </div>
-                                                        <div class="task-content" contentEditable="true">@task.Description</div>
+                                                        <div class="task-content" contentEditable="false">@task.Description</div>
                                                         <div class="edittask-button">
                                                             <a class="nav__link" asp-controller="Project"
                                                                asp-action="EditTask"
@@ -140,6 +183,14 @@
                                                                asp-route-columnid="@column.Id"
                                                                asp-route-taskid="@task.Id">
                                                                 Edit
+                                                            </a>
+                                                        </div>
+                                                        <div class="edittask-button">
+                                                            <a class="nav__link" asp-controller="Project"
+                                                               asp-action="Index"
+                                                               asp-route-projectid="@ViewData["projectid"].ToString()"
+                                                               asp-route-taskid=@task.Id>
+                                                                Chat
                                                             </a>
                                                         </div>
 
@@ -153,6 +204,14 @@
                                                        asp-route-projectid="@ViewData["projectid"].ToString()"
                                                        asp-route-columnid="@column.Id">
                                                         +
+                                                    </a>
+                                                </div>
+                                                <div class="editcolumn-button">
+                                                    <a class="nav__link" asp-controller="Project"
+                                                       asp-action="EditColumn"
+                                                       asp-route-projectid="@ViewData["projectid"].ToString()"
+                                                       asp-route-columnid="@column.Id">
+                                                        Edit
                                                     </a>
                                                 </div>
                                             </div>
@@ -199,83 +258,89 @@
                                         foreach (var column in columnstodraw)
                                         {
 
-                    <div class="column" column-id="@column.Id">
+                                            <div class="column" column-id="@column.Id">
 
+                                                <div class="column-header-wrapper">
+                                                    <div class="column-header">
+                                                        @column.Name
+                                                    </div>
+                                                    <div class="icon-column-close-wrapper"></div>
+                                                </div>
 
+                                                @{
+                                                    List<ProjectManager.Models.Task> tasksInOrder = columnsInOrder.First(x => x.columnid == column.Id.ToString()).tasks.ToList();
 
-                        <div class="column-header-wrapper">
-                            <div class="column-header">
-                                @column.Name
-                            </div>
-                            <div class="icon-column-close-wrapper"></div>
-                        </div>
+                                                    var taskstodraw = new List<ProjectManager.Task>();
+                                                    foreach (var tsinorder in tasksInOrder)
+                                                    {
+                                                        var task = Model.tasks.getTaskById(new Guid(tsinorder.taskid.ToString()));
+                                                        taskstodraw.Add(task);
+                                                    }
+                                                    var tasks = Model.columns.getTasksByColumnId(new Guid(column.Id.ToString()));
+                                                    foreach (var ts in tasks)
+                                                    {
+                                                        var t = tasksInOrder.Where(x => x.taskid == ts.Id.ToString());
+                                                        if (t.Count() != 0)
+                                                        {
+                                                            continue;
+                                                        }
+                                                        else
+                                                        {
+                                                            taskstodraw.Add(ts);
+                                                        }
 
-                        @{
-                            List<ProjectManager.Models.Task> tasksInOrder = columnsInOrder.First(x => x.columnid == column.Id.ToString()).tasks.ToList();
+                                                    }
+                                                }
 
-                            var taskstodraw = new List<ProjectManager.Task>();
-                            foreach (var tsinorder in tasksInOrder)
-                            {
-                                var task = Model.tasks.getTaskById(new Guid(tsinorder.taskid.ToString()));
-                                taskstodraw.Add(task);
-                            }
-                            var tasks = Model.columns.getTasksByColumnId(new Guid(column.Id.ToString()));
-                            foreach (var ts in tasks)
-                            {
-                                var t = tasksInOrder.Where(x => x.taskid == ts.Id.ToString());
-                                if (t.Count() != 0)
-                                {
-                                    continue;
-                                }
-                                else
-                                {
-                                    taskstodraw.Add(ts);
-                                }
+                                                @{
+                                                    for (int i = 0; i < taskstodraw.Count(); i++)
+                                                    {
+                                                        <div class="task" task-id="@taskstodraw.ElementAt(i).Id">
+                                                            <div class="task-header-wrapper">
+                                                                <div class="task-header">@taskstodraw.ElementAt(i).Name</div>
+                                                                <div class="icon-task-close-wrapper"></div>
+                                                                <div class="icon-task-toggle-wrapper"></div>
+                                                            </div>
+                                                            <div class="task-content" contentEditable="false">@taskstodraw.ElementAt(i).Description</div>
+                                                            <div class="edittask-button">
+                                                                <a class="nav__link" asp-controller="Project"
+                                                                   asp-action="EditTask"
+                                                                   asp-route-projectid="@ViewData["projectid"].ToString()"
+                                                                   asp-route-columnid="@column.Id"
+                                                                   asp-route-taskid="@taskstodraw.ElementAt(i).Id">
+                                                                    Edit
+                                                                </a>
+                                                            </div>
+                                                            <div class="edittask-button">
+                                                                <a class="nav__link" asp-controller="Project"
+                                                                   asp-action="Index"
+                                                                   asp-route-projectid="@ViewData["projectid"].ToString()"
+                                                                   asp-route-taskid="@taskstodraw.ElementAt(i).Id">
+                                                                    Chat
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                }
+                                                <div class="newtask-button">
+                                                    <a class="nav__link"
+                                                       asp-controller="Project"
+                                                       asp-action="CreateTask"
+                                                       asp-route-projectid="@ViewData["projectid"].ToString()"
+                                                       asp-route-columnid="@column.Id">
+                                                        +
+                                                    </a>
+                                                </div>
+                                                <div class="editcolumn-button">
+                                                    <a class="nav__link" asp-controller="Project"
+                                                       asp-action="EditColumn"
+                                                       asp-route-projectid="@ViewData["projectid"].ToString()"
+                                                       asp-route-columnid="@column.Id">
+                                                        Edit
+                                                    </a>
+                                                </div>
 
-                            }
-                        }
-
-                        @{
-                            for (int i = 0; i < taskstodraw.Count(); i++)
-                            {
-                                <div class="task" task-id="@taskstodraw.ElementAt(i).Id">
-                                    <div class="task-header-wrapper">
-                                        <div class="task-header">@taskstodraw.ElementAt(i).Name</div>
-                                        <div class="icon-task-close-wrapper"></div>
-                                        <div class="icon-task-toggle-wrapper"></div>
-                                    </div>
-                                    <div class="task-content" contentEditable="true">@taskstodraw.ElementAt(i).Description</div>
-                                    <div class="edittask-button">
-                                        <a class="nav__link" asp-controller="Project"
-                                           asp-action="EditTask"
-                                           asp-route-projectid="@ViewData["projectid"].ToString()"
-                                           asp-route-columnid="@column.Id"
-                                           asp-route-taskid="@taskstodraw.ElementAt(i).Id">
-                                            Edit
-                                        </a>
-                                    </div>
-                                </div>
-                            }
-                        }
-                        <div class="newtask-button">
-                            <a class="nav__link"
-                               asp-controller="Project"
-                               asp-action="CreateTask"
-                               asp-route-projectid="@ViewData["projectid"].ToString()"
-                               asp-route-columnid="@column.Id">
-                                +
-                            </a>
-                        </div>
-                        <div class="editcolumn-button">
-                            <a class="nav__link" asp-controller="Project"
-                               asp-action="EditColumn"
-                               asp-route-projectid="@ViewData["projectid"].ToString()"
-                               asp-route-columnid="@column.Id">
-                                Edit
-                            </a>
-                        </div>
-
-                    </div>
+                                            </div>
                                         }
 
                                     }
@@ -296,9 +361,7 @@
                             </a>
                         </div>
                     </div>
-
                 </div>
-
             </div>
             <br />
         </div>

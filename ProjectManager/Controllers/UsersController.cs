@@ -10,7 +10,7 @@ using System;
 
 namespace ProjectManager.Controllers
 {
-    [Authorize(Roles = "admin")]
+    
     public class UsersController : Controller
     {
         private readonly DataManager _dataManager;

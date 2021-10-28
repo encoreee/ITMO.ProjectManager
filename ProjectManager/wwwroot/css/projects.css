@@ -1,13 +1,14 @@
 ﻿.projects-area {
     list-style-type: none;
     margin: 0;
+    margin-left: 1em;
     padding: 0;
 }
 
 .project {
     width: 190px;
     height: 250px;
-    margin: 1em 1em 1em 1em;
+    margin: 1mm 1mm 1mm 1mm;
     padding: 0.3em;
     float: left;
     /*justify-content: space-between;*/
@@ -45,7 +46,7 @@
 
 .project-header {
     display: inline-block;
-    width: 120px;
+    width: 130px;
     padding: 0.2em 0.3em;
     margin-bottom: 0.5em;
     position: relative;
@@ -66,7 +67,7 @@
 .newproject-button {
     width: 30px;
     height: 30px;
-    margin: 1em 1em 1em 1em;
+    margin: 1mm 1mm 1mm 1mm;
     padding: 0.3em;
     float: left;
     align-content: center;

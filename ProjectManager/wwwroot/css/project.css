@@ -1,6 +1,7 @@
 ﻿.columns-area {
     display: flex;
     margin: 0;
+    margin-left: 1em;
     padding: 0;
     overflow: scroll;
     overflow-y: hidden;
@@ -8,12 +9,18 @@
     max-width: 1210px;
 }
 .column {
-    margin: 1em;
+    margin: 1mm;
     width: 250px;
     float: left;
-    padding: 10px;
+    padding: 4px;
     border: 1px solid grey;
 }
+
+.task .ui-selected {
+    background: #F39814;
+}
+
+
 .column-header-wrapper {
     height: min-content;
     list-style-type: none;
@@ -23,7 +30,7 @@
 
 .column-header {
     display: inline-block;
-    width: 200px;
+    width: 217px;
     padding: 0.2em 0.3em;
     border: 1px solid grey;
     margin-bottom: 0.5em;
@@ -39,8 +46,8 @@
 }
 
 .task {
-    margin: 1em;
-    padding: 0.3em;
+    margin: 3px;
+    padding: 0.2em;
     
 }
 
@@ -62,7 +69,7 @@
 .task-header {
     padding: 0.2em 0.3em;
     margin-bottom: 0.5em;
-    width: 120px;
+    width: 182px;
     position: relative;
     display: inline-block;
 }
@@ -88,14 +95,14 @@
 .task-content {
     padding: 0.4em;
     word-wrap: break-word;
-    white-space: nowrap; /* Отменяем перенос текста */
-    overflow: hidden; /* Обрезаем содержимое */
-    text-overflow: ellipsis; /* Многоточие */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
     .task-content:hover {
 
-        white-space: normal; /* Обычный перенос текста */
+        white-space: normal;
     }
 
 .task-placeholder {
@@ -118,9 +125,9 @@
 .newtask-button {
     height: 30px;
     width: 30px;
-    margin-left: 10px;
-    margin-top: 10px;
-    padding: 0.3em;
+    margin-left: 1px;
+    margin-top: 1px;
+
     float: left;
     align-content: center;
 }
@@ -128,12 +135,11 @@
 .editcolumn-button {
     height: 30px;
     width: 30px;
-    margin-left: 10px;
-    margin-top: 10px;
-    padding: 0.3em;
+    margin-left: 1px;
+    margin-top: 1px;
     float: right;
     align-content: center;
-    margin-right: 50px;
+    margin-right: 30px;
 }
 
 

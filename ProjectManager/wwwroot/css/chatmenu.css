@@ -1,0 +1,124 @@
+﻿.chatmenu {
+    background: #555 url('../images/menu-bg.jpg') repeat left top;
+    right: -400px;
+    height: 100%;
+    position: fixed;
+    width: 400px;
+    z-index: 300;
+}
+
+/* Chat containers */
+.msgcontainer {
+    border: 2px solid #dedede;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+}
+
+/* Darker chat container */
+.masgdarker {
+    border-color: #ccc;
+    background-color: #ddd;
+}
+
+/* Clear floats */
+.container::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/* Style images */
+.msgcontainer img {
+    float: left;
+    max-width: 60px;
+    width: 100%;
+    margin-right: 20px;
+    border-radius: 50%;
+}
+
+    .msgcontainer img.right {
+        float: right;
+        margin-left: 20px;
+        margin-right: 0;
+    }
+
+.userright {
+    float: right;
+    margin-left: 20px;
+    margin-right: 0;
+}
+
+
+.msgtime-right {
+    float: right;
+    color: #aaa;
+}
+
+.msgtime-left {
+    float: left;
+    color: #999;
+}
+
+.chatmenu-icon-close {
+    cursor: pointer;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 6px;
+}
+
+.icon-chatmenu {
+    float: right;
+    color: #fff;
+    cursor: pointer;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+    padding-bottom: 25px;
+    padding-right: 25px;
+    padding-top: 10px;
+    text-decoration: none;
+    text-transform: uppercase;
+    position: absolute;
+    right: 0;
+}
+
+    .icon-chatmenu img {
+        margin-right: 5px;
+    }
+
+.msger-inputarea * {
+    height: 40px;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    font-size: 1em;
+    color: #999;
+    padding: 15px;
+}
+
+.msger-input {
+    margin-left: 10px;
+    float: left;
+    width: 60%;
+    flex: 1;
+    background: #ddd;
+}
+
+.msger-send-btn {
+    margin-right: 10px;
+    float: right;
+    width: 30%;
+    margin-left: 10px;
+    background: rgb(0, 196, 65);
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.23s;
+}
+
+.msger-chat {
+    overflow-y: auto;
+    max-height: 90%;
+}

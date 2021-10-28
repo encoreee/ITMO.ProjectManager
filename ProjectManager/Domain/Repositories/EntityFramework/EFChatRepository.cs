@@ -20,7 +20,11 @@ namespace ProjectManager.Domain.Repositories.EntityFramework
         {
             context.Chats.Remove(new Chat() { Id = id });
         }
-
+        void IChatRepository.addChat(Chat chat)
+        {
+            context.Chats.Add(chat);
+            context.SaveChanges();
+        }
         IQueryable<Chat> IChatRepository.getChat()
         {
             return context.Chats;
@@ -29,6 +33,11 @@ namespace ProjectManager.Domain.Repositories.EntityFramework
         Chat IChatRepository.getChatById(Guid id)
         {
             return context.Chats.FirstOrDefault(x => x.Id == id);
+        }
+        Chat IChatRepository.getChatByTaskId(Guid taskid)
+        {
+            var task = context.Tasks.Where(x => x.Id == taskid).FirstOrDefault();
+            return context.Chats.Where(x => x.Id == task.Chatid).FirstOrDefault();
         }
 
         void IChatRepository.saveChat(Chat chat)

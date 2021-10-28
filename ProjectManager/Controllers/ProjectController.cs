@@ -24,21 +24,25 @@ namespace ProjectManager.Controllers
             _userManager = userManager;
         }
 
-        public async Task <ActionResult> Index(String projectid)
+        public async Task <ActionResult> Index(String projectid, string? taskid)
         {
+            
             ViewData["userid"] = _userManager.GetUserId(User);
             ViewData["projectid"] = projectid;
+            if (taskid != null)
+            {
+                ViewData["taskid"] = taskid;
+            }
             ViewBag.dataManager = dataManager;
             return View(dataManager);
         }
 
         public IActionResult CreateTask(String projectid, String columnid)
         {
-            Guid guid = Guid.NewGuid();
 
             Task task = new Task
             {
-                Id = guid,
+                Id = Guid.NewGuid(),
                 Name = "Task name",
                 Description = "Task description",
                 Startdate = DateTime.Now,
@@ -46,8 +50,19 @@ namespace ProjectManager.Controllers
                 Priority = 0
             };
 
+            Chat chat = new Chat()
+            {
+                Id = Guid.NewGuid(),
+                Name = "Chat for" + task.Name
+            };
+
+          
+            task.Chatid = chat.Id;
             Column column = dataManager.columns.getColumnsById(new Guid(columnid));
+
+            dataManager.chats.addChat(chat);
             dataManager.tasks.addTask(task);
+            
             dataManager.columns.addTaskToColumn(task, column);
             return RedirectToAction("Index", new
             {
@@ -91,6 +106,32 @@ namespace ProjectManager.Controllers
             });
         }
 
+        public string addMessageToChat(string chatid, string text, string date)
+        {
+            Message message = new Message()
+            {
+                Id = Guid.NewGuid(),
+                Chatid = new Guid(chatid),
+                Text = text,
+                Datetime = DateTime.Parse(date),
+                UserId = new Guid (_userManager.GetUserId(User))
+            };
+            var user = _userManager.GetUserAsync(User).GetAwaiter().GetResult();
+            dataManager.messages.addMessage(message);
+            return user.UserName;
+        }
+
+        public JsonResult GetChat(String taskid)
+        {
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true
+            };
+            Chat chat = dataManager.chats.getChatByTaskId(new Guid(taskid));
+            //string jsonString = JsonSerializer.Serialize(chat, options);
+
+            return Json(dataManager.chats.getChatByTaskId(new Guid(taskid)), options);
+        }
         public  IActionResult ChangeColumn(String projectid, String columnid, String taskid)
         {
 

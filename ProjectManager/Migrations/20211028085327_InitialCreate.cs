@@ -74,6 +74,21 @@ namespace ProjectManager.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Chatid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Datetime = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Projects",
                 columns: table => new
                 {
@@ -193,27 +208,6 @@ namespace ProjectManager.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Messages",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    chatId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Datetime = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Messages", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Messages_Chats_chatId",
-                        column: x => x.chatId,
-                        principalTable: "Chats",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Tasks",
                 columns: table => new
                 {
@@ -224,7 +218,7 @@ namespace ProjectManager.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Priority = table.Column<int>(type: "int", nullable: false),
                     Userid = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ChatId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    Chatid = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -233,12 +227,6 @@ namespace ProjectManager.Migrations
                         name: "FK_Tasks_AspNetUsers_Userid",
                         column: x => x.Userid,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Tasks_Chats_ChatId",
-                        column: x => x.ChatId,
-                        principalTable: "Chats",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -274,14 +262,15 @@ namespace ProjectManager.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ProjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProjectUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProjectUsers_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_ProjectUsers_AspNetUsers_UserId1",
+                        column: x => x.UserId1,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -323,8 +312,8 @@ namespace ProjectManager.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "44546e06-8719-4ad8-b88a-f271ae9d6eab", "82a55815-7144-4d28-a163-8c09f11b1b71", "admin", "ADMIN" },
-                    { "401CD605-BAEF-45CF-8BB5-FA69DA80DC63", "802120f6-b11a-42e6-ac76-f047fe80a791", "user", "USER" }
+                    { "44546e06-8719-4ad8-b88a-f271ae9d6eab", "32df937d-3333-4120-a990-9fc33540eb7e", "admin", "ADMIN" },
+                    { "401CD605-BAEF-45CF-8BB5-FA69DA80DC63", "0eb8bb3c-0019-42b7-946d-3aeef49fe2e0", "user", "USER" }
                 });
 
             migrationBuilder.InsertData(
@@ -332,8 +321,8 @@ namespace ProjectManager.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "Year" },
                 values: new object[,]
                 {
-                    { "3b62472e-4f66-49fa-a20f-e7685b9565d8", 0, "fe7de99a-b505-4a34-a38e-fe483c669214", "User", "admin@email.com", true, false, null, "ADMIN@EMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEDjyV0C410mAXR4cBjw4d9I9vDeY5qPbs+7kARuIIZbnqISemwspO2j7rtLe6ghdwA==", null, false, "", false, "admin", 0 },
-                    { "13D24B5A-E7C9-42B0-BCD2-DF0956FEB2FB", 0, "0591440a-9423-4a5d-8a79-9b0f59ad0d97", "User", "user1@email.com", true, false, null, "USER1@EMAIL.COM", "USER1", "AQAAAAEAACcQAAAAEKDJnDMy3BtmIcYDBJBtpub86Z4VuGGpG/KmQNKFHZhGKTQkFAVgey0ErWVGmScABw==", null, false, "", false, "User1", 0 }
+                    { "3b62472e-4f66-49fa-a20f-e7685b9565d8", 0, "4445783f-98f1-49db-8e36-b46ee6f88c1e", "User", "admin@email.com", true, false, null, "ADMIN@EMAIL.COM", "ADMIN", "AQAAAAEAACcQAAAAEDx7/pdH8EKF50rWNUtQhozr3e3GPE7GyJFt37WY+ur8DTg7wJVjjCZes/d/dcTbRw==", null, false, "", false, "admin", 0 },
+                    { "13D24B5A-E7C9-42B0-BCD2-DF0956FEB2FB", 0, "c37df21c-52c3-46cd-8717-5cc6e31e1068", "User", "user1@email.com", true, false, null, "USER1@EMAIL.COM", "USER1", "AQAAAAEAACcQAAAAEB5YgztD8NXTKaTSEl3CfUmwNXWHLJVDcJvdJ8ZoAwqUMYID7IUQuYcNzSTW6A1Btg==", null, false, "", false, "User1", 0 }
                 });
 
             migrationBuilder.InsertData(
@@ -396,11 +385,6 @@ namespace ProjectManager.Migrations
                 column: "Taskid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Messages_chatId",
-                table: "Messages",
-                column: "chatId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ProjectColumns_Columnid",
                 table: "ProjectColumns",
                 column: "Columnid");
@@ -416,14 +400,9 @@ namespace ProjectManager.Migrations
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProjectUsers_UserId",
+                name: "IX_ProjectUsers_UserId1",
                 table: "ProjectUsers",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tasks_ChatId",
-                table: "Tasks",
-                column: "ChatId");
+                column: "UserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tasks_Userid",
@@ -447,6 +426,9 @@ namespace ProjectManager.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Chats");
 
             migrationBuilder.DropTable(
                 name: "ColumnTasks");
@@ -474,9 +456,6 @@ namespace ProjectManager.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Chats");
         }
     }
 }

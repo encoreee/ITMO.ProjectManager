@@ -49,14 +49,14 @@ namespace ProjectManager.Migrations
                         new
                         {
                             Id = "44546e06-8719-4ad8-b88a-f271ae9d6eab",
-                            ConcurrencyStamp = "f5faaf31-f927-4476-8ba5-7cb00bb0a0bb",
+                            ConcurrencyStamp = "32df937d-3333-4120-a990-9fc33540eb7e",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "401CD605-BAEF-45CF-8BB5-FA69DA80DC63",
-                            ConcurrencyStamp = "31c679a2-303c-43a5-bb09-5ae227fa3840",
+                            ConcurrencyStamp = "0eb8bb3c-0019-42b7-946d-3aeef49fe2e0",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -307,6 +307,9 @@ namespace ProjectManager.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("Chatid")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime?>("Datetime")
                         .HasColumnType("datetime2");
 
@@ -316,12 +319,7 @@ namespace ProjectManager.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("chatId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("chatId");
 
                     b.ToTable("Messages");
                 });
@@ -394,7 +392,7 @@ namespace ProjectManager.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ChatId")
+                    b.Property<Guid>("Chatid")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
@@ -417,8 +415,6 @@ namespace ProjectManager.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ChatId");
-
                     b.HasIndex("Userid");
 
                     b.ToTable("Tasks");
@@ -438,13 +434,13 @@ namespace ProjectManager.Migrations
                         {
                             Id = "3b62472e-4f66-49fa-a20f-e7685b9565d8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2b8c593d-ba27-43d1-8a95-06af49a33628",
+                            ConcurrencyStamp = "4445783f-98f1-49db-8e36-b46ee6f88c1e",
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJDQxQXqcuR2e7DkyD2P4WmeKnTg8f0Of8m6omFkCPfwd8ePAjFiFUJZWjNqP2nzyQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDx7/pdH8EKF50rWNUtQhozr3e3GPE7GyJFt37WY+ur8DTg7wJVjjCZes/d/dcTbRw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -455,13 +451,13 @@ namespace ProjectManager.Migrations
                         {
                             Id = "13D24B5A-E7C9-42B0-BCD2-DF0956FEB2FB",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "efd341c7-a373-4c59-97f4-e9bcb3888033",
+                            ConcurrencyStamp = "c37df21c-52c3-46cd-8717-5cc6e31e1068",
                             Email = "user1@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@EMAIL.COM",
                             NormalizedUserName = "USER1",
-                            PasswordHash = "AQAAAAEAACcQAAAAELM0gBPkdRQtAgwqXbUZOdE0YXGnNBk0noOKPbDDch0dAqpmbDUiLyCFvSgJY3bDZw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEB5YgztD8NXTKaTSEl3CfUmwNXWHLJVDcJvdJ8ZoAwqUMYID7IUQuYcNzSTW6A1Btg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -536,17 +532,6 @@ namespace ProjectManager.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProjectManager.Message", b =>
-                {
-                    b.HasOne("ProjectManager.Chat", "chat")
-                        .WithMany("Messagies")
-                        .HasForeignKey("chatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("chat");
-                });
-
             modelBuilder.Entity("ProjectManager.ProjectColumn", b =>
                 {
                     b.HasOne("ProjectManager.Column", null)
@@ -577,20 +562,9 @@ namespace ProjectManager.Migrations
 
             modelBuilder.Entity("ProjectManager.Task", b =>
                 {
-                    b.HasOne("ProjectManager.Chat", "Chat")
-                        .WithMany()
-                        .HasForeignKey("ChatId");
-
                     b.HasOne("ProjectManager.User", null)
                         .WithMany("Tasks")
                         .HasForeignKey("Userid");
-
-                    b.Navigation("Chat");
-                });
-
-            modelBuilder.Entity("ProjectManager.Chat", b =>
-                {
-                    b.Navigation("Messagies");
                 });
 
             modelBuilder.Entity("ProjectManager.Column", b =>

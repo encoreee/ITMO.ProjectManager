@@ -1,14 +1,20 @@
 ﻿.intro {
     justify-content: center;
     width: 100%;
-    height: calc(100vh);
-    padding-top: 70px;
+    height: 95vh;
+    padding-top: 10px;
+    overflow: scroll;
+    overflow-y: auto;
+    overflow-x: auto;
 }
 .intro__pjct {
     justify-content: center;
     width: 100%;
-    height: 100vh;
+    height: 95vh;
     padding-top: 10px;
+    overflow: scroll;
+    overflow-y: auto;
+    overflow-x: auto;
 }
 
 
@@ -37,12 +43,13 @@
 }
 
 .intro__inner {
-    padding-top: 5%;
+    padding-top: 20px;
     width: 100%;
     max-width: 1210px;
+    
     min-height: 800px;
     margin: 0 auto;
     border: 2px solid grey;
     box-shadow: 0 0 3px rgba(0,0,0,0.3);
-    background-color : whitesmoke
+    background-color: whitesmoke
 }

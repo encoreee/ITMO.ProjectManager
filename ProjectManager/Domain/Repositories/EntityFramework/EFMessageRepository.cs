@@ -16,6 +16,11 @@ namespace ProjectManager.Domain.Repositories.EntityFramework
             this.context = context;
         }
 
+        void IMessageRepository.addMessage(Message message)
+        {
+            context.Messages.Add(message);
+            context.SaveChanges();
+        }
         void IMessageRepository.deleteMessage(Guid id)
         {
             context.Messages.Remove(new Message() { Id = id });
@@ -24,6 +29,12 @@ namespace ProjectManager.Domain.Repositories.EntityFramework
         Message IMessageRepository.getMessageById(Guid id)
         {
             return context.Messages.FirstOrDefault(x => x.Id == id);
+        }
+        IQueryable<Message> IMessageRepository.getMessagiesByChatId(Guid chatid)
+        {
+            var chat = context.Chats.FirstOrDefault(x => x.Id == chatid);
+
+            return context.Messages.Where(x => x.Chatid == chat.Id);
         }
 
         IQueryable<Message> IMessageRepository.getMessages()

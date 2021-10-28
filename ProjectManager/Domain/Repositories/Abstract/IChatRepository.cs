@@ -7,8 +7,10 @@ namespace ProjectManager.Domain.Repositories.Abstract
 {
     public interface IChatRepository
     {
+        void addChat(Chat chat);
         IQueryable<Chat> getChat();
         Chat getChatById(Guid id);
+        Chat getChatByTaskId(Guid taskid);
         void saveChat(Chat chat);
         void deleteChat(Guid id);
     }
