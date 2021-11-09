@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectManager;
 
 namespace ProjectManager.Migrations
 {
     [DbContext(typeof(ProjectManagerDBContext))]
-    partial class ProjectManagerDBContextModelSnapshot : ModelSnapshot
+    [Migration("20211029113954_mig2")]
+    partial class mig2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,14 +51,14 @@ namespace ProjectManager.Migrations
                         new
                         {
                             Id = "44546e06-8719-4ad8-b88a-f271ae9d6eab",
-                            ConcurrencyStamp = "d91e683a-4e15-4705-b3c9-d9e95574fe00",
+                            ConcurrencyStamp = "db5e7ce6-ff23-4b8d-ab63-bb3e9698d577",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "401CD605-BAEF-45CF-8BB5-FA69DA80DC63",
-                            ConcurrencyStamp = "ed334f74-db65-4500-89af-2a5bb9628f59",
+                            ConcurrencyStamp = "ed821411-e0bc-4a51-be86-876c748024a3",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -434,13 +436,13 @@ namespace ProjectManager.Migrations
                         {
                             Id = "3b62472e-4f66-49fa-a20f-e7685b9565d8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e6e51abb-6571-4f48-b4a6-9d54a61edba7",
+                            ConcurrencyStamp = "591713cf-39d8-44db-80aa-1b5f6136a430",
                             Email = "admin@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEbv2B6q9WuND55VkffGk6udVhEWDxDwHIy/evPCrjmqlnm0eNMiIsTp6KYxkKleuw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJZJmvBUhYF5RWNz5AsWohkVzyHWd9V32HLEOnY2YK3vz5KGVfGDGofNOhKiqRbrPQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -451,13 +453,13 @@ namespace ProjectManager.Migrations
                         {
                             Id = "13D24B5A-E7C9-42B0-BCD2-DF0956FEB2FB",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1d288ce2-8921-4904-824b-fddf9c654303",
+                            ConcurrencyStamp = "3e6fb5dd-b1c5-4ab1-b149-b4ed86e3d6b1",
                             Email = "user1@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@EMAIL.COM",
                             NormalizedUserName = "USER1",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHmr9t/fEMCcMQ4BTJHoK3LV6Ul5Z//jxS8MqsLYzlg5225OE95n7rTnIVsWsurqpQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELfUTwoN115+W37urHd2sZgaMAPI62Tw8RQ5GC2bGdv/wvKxSLvkUj0FfXxKl7HKbg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,

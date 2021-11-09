@@ -34,7 +34,7 @@ namespace ProjectManager.Domain.Repositories.EntityFramework
         {
             var chat = context.Chats.FirstOrDefault(x => x.Id == chatid);
 
-            return context.Messages.Where(x => x.Chatid == chat.Id);
+            return context.Messages.Where(x => x.Chatid == chat.Id).OrderBy(x => x.Datetime);
         }
 
         IQueryable<Message> IMessageRepository.getMessages()

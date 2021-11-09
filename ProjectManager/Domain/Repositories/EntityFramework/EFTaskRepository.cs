@@ -30,9 +30,17 @@ namespace ProjectManager.Domain.Repositories.EntityFramework
                 context.ColumnTasks.Remove(coltsk);
             }
             var tsks = context.Tasks.Where(x => x.Id == id);
-            foreach (var tks in tsks)
+
+            foreach (var tsk in tsks)
             {
-                context.Tasks.Remove(tks);
+                var chat = context.Chats.FirstOrDefault(x => x.Id == tsk.Chatid);
+                var messegies = context.Messages.Where(x => x.Chatid == chat.Id);
+                foreach (var msg in messegies)
+                {
+                    context.Remove(msg);
+                }
+                context.Remove(chat);
+                context.Tasks.Remove(tsk);
             }
             context.SaveChanges();
         }
@@ -41,8 +49,6 @@ namespace ProjectManager.Domain.Repositories.EntityFramework
         {
             return context.Tasks.FirstOrDefault(x => x.Id == id);
         }
-
-  
 
         IQueryable<Task> ITaskRepository.getTasks()
         {

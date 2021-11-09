@@ -32,6 +32,13 @@ namespace ProjectManager.Domain.Repositories.EntityFramework
                 foreach (var coltsk in coltsks)
                 {
                     var task = context.Tasks.Where(x => x.Id == coltsk.Taskid).First();
+                    var chat = context.Chats.FirstOrDefault(x => x.Id == task.Chatid);
+                    var messegies = context.Messages.Where(x => x.Chatid == chat.Id);
+                    foreach (var msg in messegies)
+                    {
+                        context.Remove(msg);
+                    }
+                    context.Remove(chat);
                     context.Tasks.Remove(task);
                     context.ColumnTasks.Remove(coltsk);
                 }
